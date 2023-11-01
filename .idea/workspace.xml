@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="64fc321e-fd31-4862-89fb-6fba6a4b77ad" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Fractals-2023.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/drawing/Converter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/drawing/Plane.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/AlgebraicFractal.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/Complex.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/Mandelbrot.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/Main.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/FractalPainter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/Painter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/Window.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin File" />
+        <option value="Kotlin Interface" />
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2XFFDD6GxV5sZrIMAjndJ4qIphW" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Smak/Programming/Idea/Fractal-2022Kotlin"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateKotlinClassDialog.RecentsKey">
+      <recent name="ru.gr106.fractal.gui" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="drawing" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ru.gr106.fractal.MainKt" />
+      <module name="Fractals-2023" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.MainKt" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="64fc321e-fd31-4862-89fb-6fba6a4b77ad" name="Changes" comment="" />
+      <created>1698216800984</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1698216800984</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/Main.kt</url>
+          <line>10</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
