@@ -4,13 +4,21 @@ import java.awt.Color
 import java.awt.Graphics
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
-import java.awt.event.MouseListener
 import java.awt.event.MouseMotionAdapter
-import java.awt.event.MouseMotionListener
 import javax.swing.JPanel
 
-class DrawingPanel(val fp:FractalPainter) : JPanel() {
+class DrawingPanel(val p:Painter) : JPanel() {
     private var rect = SelectionRect()
+    private val selectedListener = mutableListOf<(SelectionRect)->Unit>()
+
+    fun addSelectedListener(l: (SelectionRect)->Unit) {
+        selectedListener.add(l)
+    }
+
+    fun removeSelectedListener(l: (SelectionRect)->Unit) {
+        selectedListener.remove(l)
+    }
+
     init {
 
         this.addMouseListener(object : MouseAdapter(){
@@ -32,6 +40,7 @@ class DrawingPanel(val fp:FractalPainter) : JPanel() {
                 e?.let {
                     if (rect.isCreated) drawRect()
                     rect.addPoint(it.x, it.y)
+                    selectedListener.forEach { it(rect) }
                 }
             }
 
@@ -60,6 +69,6 @@ class DrawingPanel(val fp:FractalPainter) : JPanel() {
 
     override fun paint(g: Graphics?) {
         super.paint(g)
-        g?.let{ fp.paint(it) }
+        g?.let{ p.paint(it) }
     }
 }

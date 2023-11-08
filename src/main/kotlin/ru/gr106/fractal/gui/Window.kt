@@ -1,5 +1,6 @@
 package ru.gr106.fractal.gui
 
+import drawing.Converter
 import drawing.Plane
 import math.Mandelbrot
 import java.awt.Color
@@ -16,7 +17,7 @@ import kotlin.math.*
 
 class Window : JFrame() {
 
-    private val mainPanel: JPanel
+    private val mainPanel: DrawingPanel
     private val fp: FractalPainter
 
     init{
@@ -25,17 +26,26 @@ class Window : JFrame() {
         minimumSize = Dimension(600, 550)
         mainPanel = DrawingPanel(fp)
 
-
         mainPanel.addComponentListener(object : ComponentAdapter(){
             override fun componentResized(e: ComponentEvent?) {
                 fp.plane?.width = mainPanel.width
                 fp.plane?.height = mainPanel.height
                 mainPanel.repaint()
             }
-
-
-
         })
+        mainPanel.addSelectedListener {rect ->
+            fp.plane?.let {
+                val xMin = Converter.xScr2Crt(rect.x, it)
+                val yMin = Converter.yScr2Crt(rect.y, it)
+                val xMax = Converter.xScr2Crt(rect.x + rect.width, it)
+                val yMax = Converter.yScr2Crt(rect.y + rect.height, it)
+                it.xMin = xMin
+                it.yMin = yMin
+                it.xMax = xMax
+                it.yMax = yMax
+                mainPanel.repaint()
+            }
+        }
         mainPanel.background = Color.WHITE
         layout = GroupLayout(contentPane).apply {
             setVerticalGroup(
