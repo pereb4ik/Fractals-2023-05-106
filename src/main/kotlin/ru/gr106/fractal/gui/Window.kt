@@ -23,12 +23,9 @@ class Window : JFrame() {
         fp = FractalPainter(Mandelbrot)
         defaultCloseOperation = EXIT_ON_CLOSE
         minimumSize = Dimension(600, 550)
-        mainPanel = object : JPanel(){
-            override fun paint(g: Graphics?) {
-                super.paint(g)
-                g?.let{ fp.paint(it) }
-            }
-        }
+        mainPanel = DrawingPanel(fp)
+
+
         mainPanel.addComponentListener(object : ComponentAdapter(){
             override fun componentResized(e: ComponentEvent?) {
                 fp.plane?.width = mainPanel.width
