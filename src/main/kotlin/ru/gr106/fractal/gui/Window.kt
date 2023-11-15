@@ -1,7 +1,7 @@
 package ru.gr106.fractal.gui
 
-import drawing.Converter
-import drawing.Plane
+import ru.smak.drawing.Converter
+import ru.smak.drawing.Plane
 import math.Mandelbrot
 import java.awt.Color
 import java.awt.Component
@@ -36,9 +36,9 @@ class Window : JFrame() {
         mainPanel.addSelectedListener {rect ->
             fp.plane?.let {
                 val xMin = Converter.xScr2Crt(rect.x, it)
-                val yMin = Converter.yScr2Crt(rect.y, it)
+                val yMax = Converter.yScr2Crt(rect.y, it)
                 val xMax = Converter.xScr2Crt(rect.x + rect.width, it)
-                val yMax = Converter.yScr2Crt(rect.y + rect.height, it)
+                val yMin = Converter.yScr2Crt(rect.y + rect.height, it)
                 it.xMin = xMin
                 it.yMin = yMin
                 it.xMax = xMax
