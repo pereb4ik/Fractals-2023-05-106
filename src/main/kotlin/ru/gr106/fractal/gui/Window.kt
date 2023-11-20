@@ -10,6 +10,7 @@ import java.awt.Dimension
 import java.awt.Graphics
 import java.awt.MenuBar
 import java.awt.event.ActionEvent
+import java.awt.event.ActionListener
 import java.awt.event.ComponentAdapter
 import java.awt.event.ComponentEvent
 import java.awt.event.ComponentListener
@@ -22,6 +23,7 @@ import javax.swing.JMenuBar
 import javax.swing.JMenuItem
 import javax.swing.JPanel
 import javax.swing.JPopupMenu
+import javax.swing.event.MenuListener
 import kotlin.math.*
 
 class Window : JFrame() {
@@ -36,15 +38,7 @@ class Window : JFrame() {
         minimumSize = Dimension(600, 550)
         mainPanel = DrawingPanel(fp)
 
-        val joulbertBtn = JButton("Отрисовать множество Жюльберта")
-        joulbertBtn.addActionListener { joulbertFunc() }
-        this.add(joulbertBtn)
 
-        val viewBtn = JButton("Экскурсия по фракталу")
-        viewBtn.addActionListener { viewFunc() }
-        viewBtn.alignmentX = RIGHT_ALIGNMENT
-        //viewBtn.alignmentY = RIGHT_ALIGNMENT
-        this.add(viewBtn)
 
         mainPanel.addComponentListener(object : ComponentAdapter(){
             override fun componentResized(e: ComponentEvent?) {
@@ -74,13 +68,7 @@ class Window : JFrame() {
                     .addGap(4)
                     .addComponent(mainPanel)
                     .addGap(8)
-                    .addGroup(
-                        createParallelGroup()
-                            .addComponent(joulbertBtn, PREFERRED_SIZE, PREFERRED_SIZE, PREFERRED_SIZE)
 
-                            .addComponent(viewBtn, PREFERRED_SIZE, PREFERRED_SIZE, PREFERRED_SIZE)
-                    )
-                    .addGap(8)
             )
             setHorizontalGroup(
                 createParallelGroup()
@@ -91,15 +79,7 @@ class Window : JFrame() {
                             .addComponent(mainPanel)
                             .addGap(8)
                     )
-                    .addGroup(
-                        createSequentialGroup()
-                            .addGap(8)
-                            .addComponent(joulbertBtn, PREFERRED_SIZE, PREFERRED_SIZE, PREFERRED_SIZE)
-
-                            .addComponent(viewBtn, PREFERRED_SIZE, PREFERRED_SIZE, PREFERRED_SIZE)
-                            .addGap(8)
-                    )
-                    .addGap(8)
+                    .addGap(4)
             )
         }
         pack()
@@ -128,18 +108,9 @@ class Window : JFrame() {
         file.add(saveJPG)
         saveJPG.addActionListener { _: ActionEvent -> saveJPGFunc() }
 
-        val saveJPGAs = JMenuItem("Сохранить картинку как")
-        file.add(saveJPGAs)
-        saveJPGAs.addActionListener { _: ActionEvent -> saveJPGAsFunc() }
-
         val save = JMenuItem("Сохранить проект")
         file.add(save)
         save.addActionListener { _: ActionEvent -> saveFunc() }
-
-        val saveAs = JMenuItem("Сохранить проект как")
-        file.add(saveAs)
-        saveAs.setMnemonic('С')
-        saveAs.addActionListener { _: ActionEvent -> saveAsFunc() }
 
         val edit = JMenu("Изменить")
         edit.setMnemonic('И')
@@ -158,6 +129,40 @@ class Window : JFrame() {
         theme.setMnemonic('Т')
         theme.addActionListener { _: ActionEvent -> themeFunc()}
 
+        val observe = JMenu("Обозреть")
+        observe.setMnemonic('О')
+        menuBar.add(observe)
+        observe.addActionListener { _: ActionEvent -> joulbertFunc() }
+
+        val joulbert = JMenuItem("Отрисовать множество Жюльберта")
+        joulbert.setMnemonic('Ж')
+        joulbert.addActionListener { _: ActionEvent -> joulbertFunc()}
+        observe.add(joulbert)
+
+        val view = JMenuItem("Экскурсия")
+        view.setMnemonic('Э')
+        view.addActionListener { _: ActionEvent -> viewFunc()}
+        observe.add(view)
+
+        /*
+        val joulbert = JMenuItem("Жюльберт")
+
+        joulbert.setMnemonic('Ж')
+        menuBar.add(joulbert)
+        joulbert.addActionListener { _: ActionEvent -> joulbertFunc() }
+        */
+        /*
+        val joulbertBtn = JButton("Отрисовать множество Жюльберта")
+        joulbertBtn.addActionListener { joulbertFunc() }
+        this.add(joulbertBtn)
+
+        val viewBtn = JButton("Экскурсия по фракталу")
+        viewBtn.addActionListener { viewFunc() }
+        viewBtn.alignmentX = RIGHT_ALIGNMENT
+        //viewBtn.alignmentY = RIGHT_ALIGNMENT
+        this.add(viewBtn)
+        * */
+
         return menuBar
     }
 
@@ -174,19 +179,9 @@ class Window : JFrame() {
     private fun redoFunc() {
 
     }
-
-    private fun saveJPGAsFunc(){
-
-    }
-
     private fun saveJPGFunc(){
 
     }
-
-    private fun saveAsFunc(){
-
-    }
-
     private fun saveFunc(){
 
     }
