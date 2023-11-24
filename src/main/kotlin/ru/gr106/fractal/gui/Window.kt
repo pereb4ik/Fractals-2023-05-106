@@ -44,6 +44,8 @@ class Window : JFrame() {
             override fun componentResized(e: ComponentEvent?) {
                 fp.plane?.width = mainPanel.width
                 fp.plane?.height = mainPanel.height
+
+                fp.previous_img = null
                 mainPanel.repaint()
             }
         })
@@ -57,6 +59,8 @@ class Window : JFrame() {
                 it.yMin = yMin
                 it.xMax = xMax
                 it.yMax = yMax
+
+                fp.previous_img = null
                 mainPanel.repaint()
             }
         }

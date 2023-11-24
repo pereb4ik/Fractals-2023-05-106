@@ -14,6 +14,7 @@ class DrawingPanel(val p:FractalPainter) : JPanel() {
     private var startX = 0
     private var startY = 0
 
+
     fun addSelectedListener(l: (SelectionRect)->Unit) {
         selectedListener.add(l)
     }
@@ -84,7 +85,10 @@ class DrawingPanel(val p:FractalPainter) : JPanel() {
                     if (e != null) {
                         startY = e.y
                     }
-                    this@DrawingPanel.repaint()
+                    p.dx = d!!
+                    p.dy = d2!!
+
+                    p.paint(this@DrawingPanel.graphics)
 
                 }
                 if (e?.button == MouseEvent.BUTTON1) {
