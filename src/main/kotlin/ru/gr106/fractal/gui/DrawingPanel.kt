@@ -73,10 +73,25 @@ class DrawingPanel(val p:FractalPainter) : JPanel() {
             override fun mouseDragged(e: MouseEvent?) {
                 if (e?.button == MouseEvent.BUTTON3) {
                     var d = e?.x?.minus(startX)
+                    var step = 10
+
+                    if(d!!<-step){
+                        d=-step
+                    }
+                    if (d!!>step){
+                        d = step
+                    }
                     p.plane?.xMin = p.plane?.xMin?.minus(d!!/ p.plane?.xDen!!)!!
                     p.plane?.xMax = p.plane?.xMax?.minus(d!!/p.plane?.xDen!!)!!
 
                     var d2 = e?.y?.minus(startY)
+
+                    if(d2!!<-step){
+                        d2=-step
+                    }
+                    if (d2!!>step){
+                        d2 = step
+                    }
                     p.plane?.yMin = p.plane?.yMin?.minus(-d2!!/p.plane?.yDen!!)!!
                     p.plane?.yMax = p.plane?.yMax?.minus(-d2!!/p.plane?.yDen!!)!!
                     if (e != null) {
