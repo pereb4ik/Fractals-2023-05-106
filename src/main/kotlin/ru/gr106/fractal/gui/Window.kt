@@ -1,7 +1,7 @@
 package ru.gr106.fractal.gui
 
-import ru.smak.drawing.Converter
-import ru.smak.drawing.Plane
+import drawing.Converter
+import drawing.Plane
 import math.Mandelbrot
 import ru.gr106.fractal.main
 import java.awt.Color
