@@ -37,4 +37,10 @@ class FractalPainter (val fractal: AlgebraicFractal) : Painter{
 
     }
 
+    fun copy(): FractalPainter {
+        val fp = FractalPainter(fractal)
+        fp.plane = plane
+        fp.pointColor = pointColor
+        return fp
+    }
 }

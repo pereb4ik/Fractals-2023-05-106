@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64fc321e-fd31-4862-89fb-6fba6a4b77ad" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/drawing/Converter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/drawing/Plane.kt" afterDir="false" />
+    <list default="true" id="64fc321e-fd31-4862-89fb-6fba6a4b77ad" name="Changes" comment="Return Converter and Plane">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/jcodec_javase.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/output.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/MovieMaker.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Converter.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/jcodec.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/jcodec.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/Converter.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Fractals-2023.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Fractals-2023.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/drawing/Plane.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/drawing/Plane.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/FractalPainter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/FractalPainter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/Window.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/Window.kt" afterDir="false" />
     </list>
@@ -23,6 +28,7 @@
         <option value="Kotlin File" />
         <option value="Kotlin Interface" />
         <option value="Kotlin Class" />
+        <option value="Kotlin Object" />
       </list>
     </option>
   </component>
@@ -63,9 +69,9 @@
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
+    "Repository.Attach.Annotations": "true",
+    "Repository.Attach.JavaDocs": "true",
+    "Repository.Attach.Sources": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -106,7 +112,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1698216800984</updated>
-      <workItem from="1700842908872" duration="2963000" />
+      <workItem from="1700842908872" duration="5989000" />
     </task>
     <task id="LOCAL-00001" summary="Фракталы. Начало">
       <option name="closed" value="true" />
@@ -156,7 +162,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700414416085</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Return Converter and Plane">
+      <option name="closed" value="true" />
+      <created>1700845914114</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1700845914114</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -176,6 +190,7 @@
     <MESSAGE value="Рисование выделительной рамки" />
     <MESSAGE value="масштабирование фракткала" />
     <MESSAGE value="Меню" />
-    <option name="LAST_COMMIT_MESSAGE" value="Меню" />
+    <MESSAGE value="Return Converter and Plane" />
+    <option name="LAST_COMMIT_MESSAGE" value="Return Converter and Plane" />
   </component>
 </project>
