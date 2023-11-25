@@ -1,6 +1,7 @@
 package ru.gr106.fractal.gui
 
 import drawing.Plane
+import math.Mandelbrot
 import org.jcodec.api.awt.AWTSequenceEncoder
 import org.jcodec.common.io.NIOUtils
 import org.jcodec.common.model.Rational
@@ -23,11 +24,14 @@ object MovieMaker {
         }
         return ans
     }*/
-
+    var fpp = FractalPainter(Mandelbrot)
     val controlPoints = mutableListOf<Plane>()
+    // Content Pane JList
+    val cpJList = ListModelPlane(controlPoints)
 
     fun addControlPoint(p: Plane) {
         controlPoints.add(p)
+        cpJList.addItem(p.toString())
     }
 
     /*fun makeVideo(p1: Plane, p2: Plane, fpp: FractalPainter) {
@@ -82,7 +86,14 @@ object MovieMaker {
         NIOUtils.closeQuietly(out)
     }*/
 
-    fun makeVideo(fpp: FractalPainter) {
+    fun printKeyFrames() {
+        for (p in controlPoints) {
+            println(p.toString())
+        }
+    }
+
+    fun makeVideo() {
+        printKeyFrames()
         val p1 = controlPoints.first()
         val p2 = controlPoints.last()
 
@@ -91,7 +102,7 @@ object MovieMaker {
         //fp.plane = p2
 
         /// time in seconds
-        val T = 10.0
+        val T = 5.0
         val fps = 24
         val frames = (T * fps).toInt()
         val x1 = p1.xSize
