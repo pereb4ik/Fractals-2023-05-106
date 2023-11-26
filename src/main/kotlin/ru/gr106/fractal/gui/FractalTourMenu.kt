@@ -115,7 +115,7 @@ class ListModelPlane(val keyFrames: MutableList<Plane>) : JPanel() {
 class FractalTourMenu : JFrame() {
     init {
         title = "Key frames list"
-        defaultCloseOperation = EXIT_ON_CLOSE
+        defaultCloseOperation = DISPOSE_ON_CLOSE
         contentPane = MovieMaker.cpJList
         setSize(260, 200)
         isVisible = true
