@@ -3,7 +3,6 @@ package ru.gr106.fractal.gui
 import drawing.Plane
 import math.Mandelbrot
 import math.splines.AnotherCubicSpline
-import math.splines.CubicMomentSpline
 import math.splines.LinearSpline
 import math.splines.Spline
 import org.jcodec.api.awt.AWTSequenceEncoder
@@ -150,15 +149,17 @@ object MovieMaker {
         }
         val Ty = mutableListOf<MutableList<Double>>()
         val Tx = mutableListOf<MutableList<Double>>()
-        val sTx = mutableListOf<Double>()
-        val sfx = mutableListOf<Double>()
-        val sTy = mutableListOf<Double>()
-        val sfy = mutableListOf<Double>()
+        val Sx = mutableListOf<Spline>()
+        val Sy = mutableListOf<Spline>()
         for (i in 0..<frameInd.size - 1) {
             val i1 = frameInd[i]
             val i2 = frameInd[i + 1]
             val listy = mutableListOf<Double>()
             val listx = mutableListOf<Double>()
+            val xSize = mutableListOf<Double>()
+            val ySize = mutableListOf<Double>()
+            val xMin = mutableListOf<Double>()
+            val yMin = mutableListOf<Double>()
             for (j in i1..i2) {
                 var tky = (ln(controlPoints[j].ySize) - cY[i]) / c1Y
                 var tkx = (ln(controlPoints[j].xSize) - cX[i]) / c1X
@@ -170,22 +171,27 @@ object MovieMaker {
                 tky -= t0Y
                 listy.add(tky)
                 listx.add(tkx)
-                if (j < i2) {
-                    sTx.add(tkx)
-                    sTy.add(tky)
-                    sfx.add(controlPoints[j].xMin)
-                    sfy.add(controlPoints[j].yMin)
-                }
+                xSize.add(controlPoints[j].xSize)
+                ySize.add(controlPoints[j].ySize)
+                xMin.add(controlPoints[j].xMin)
+                yMin.add(controlPoints[j].yMin)
             }
+            if (xSize.first() > xSize.last()) {
+                xSize.reverse()
+                xMin.reverse()
+            }
+            if (ySize.first() > ySize.last()) {
+                ySize.reverse()
+                yMin.reverse()
+            }
+            val N = xSize.size - 1
+            Sx.add(LinearSpline(N, xSize.toDoubleArray(), xMin.toDoubleArray()))
+            Sy.add(LinearSpline(N, ySize.toDoubleArray(), yMin.toDoubleArray()))
             //printList(listx)
             //printList(listy)
             Ty.add(listy)
             Tx.add(listx)
         }
-        sTx.add(T)
-        sTy.add(T)
-        sfx.add(controlPoints.last().xMin)
-        sfy.add(controlPoints.last().yMin)
         /// Awful bag fix
         // sometimes last time point < then T
         // this fix that
@@ -203,15 +209,6 @@ object MovieMaker {
 
         val out = NIOUtils.writableFileChannel(outputFileName)
         val encoder = AWTSequenceEncoder(out, Rational.R(fps, 1))
-        val Sx = LinearSpline(sTx.size - 1, sTx.toDoubleArray(), sfx.toDoubleArray())
-        val Sy = LinearSpline(sTy.size - 1, sTy.toDoubleArray(), sfy.toDoubleArray())
-
-        //val Sx = AnotherCubicSpline(sTx.size - 1, sTx.toDoubleArray(), sfx.toDoubleArray())
-        //val Sy = AnotherCubicSpline(sTy.size - 1, sTy.toDoubleArray(), sfy.toDoubleArray())
-        printList(sTx)
-        printList(sfx)
-        printList(sTy)
-        printList(sfy)
         for (f in 0..frames) {
             val t = f / (fps.toDouble())
             // find segment where placed t
@@ -236,17 +233,13 @@ object MovieMaker {
             xi += frameInd[xk]
 
             // vertex of square
-            //val tx = (dx - cp[xi].xSize) / (cp[xi + 1].xSize - cp[xi].xSize)
-            //println("T: " + tx)
-            //val xx = cp[xi].xMin + (cp[xi + 1].xMin - cp[xi].xMin) * tx
-            //val ttx = sTx[xi]
-            //val tttx = sTx[xi + 1]
-            //val xx = Sx.sb(t)
-            //println("t: " + (ttx + (tttx - ttx) * tx))
-            val xS = LinearSpline(1, doubleArrayOf(cp[xi].xSize, cp[xi + 1].xSize), doubleArrayOf(sTx[xi], sTx[xi + 1]))
-
-            //val xx = Sx.sb(ttx + (tttx - ttx) * tx)
-            val xx = Sx.sb(xS.sb(dx))
+            /*val Sx = LinearSpline(
+                1,
+                doubleArrayOf(cp[xi].xSize, cp[xi + 1].xSize),
+                doubleArrayOf(cp[xi].xMin, cp[xi + 1].xMin)
+            )
+            val xx = Sx.sb(dx)*/
+            val xx = Sx[xk].sb(dx)
 
             ///// -----------------------
             var dy: Double
@@ -262,17 +255,13 @@ object MovieMaker {
             }
             yi += frameInd[yk]
 
-            // vertex of square
-            //val ty = (dy - cp[yi].ySize) / (cp[yi + 1].ySize - cp[yi].ySize)
-            //println("T: " + ty)
-            //val yy = cp[yi].yMin + (cp[yi + 1].yMin - cp[yi].yMin) * ty
-            //val tty = sTy[yi]
-            //val ttty = sTy[yi + 1]
-            //val yy = Sy.sb(t)
-            //println("t: " + (tty + (ttty - tty) * ty))
-            val yS = LinearSpline(1, doubleArrayOf(cp[yi].ySize, cp[yi + 1].ySize), doubleArrayOf(sTy[yi], sTy[yi + 1]))
-            //val yy = Sy.sb(tty + (ttty - tty) * ty)
-            val yy = Sy.sb(yS.sb(dy))
+            /*val Sy = LinearSpline(
+                1,
+                doubleArrayOf(cp[yi].ySize, cp[yi + 1].ySize),
+                doubleArrayOf(cp[yi].yMin, cp[yi + 1].yMin)
+            )
+            val yy = Sy.sb(dy)*/
+            val yy = Sy[yk].sb(dy)
 
             val p = Plane(xx, xx + dx, yy, yy + dy, width, height)
             fp.plane = p

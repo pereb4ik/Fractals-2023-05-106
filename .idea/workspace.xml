@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64fc321e-fd31-4862-89fb-6fba6a4b77ad" name="Changes" comment="Now increasing and decreasing sequences can alternate">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/AnotherCubicSpline.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/CubicMomentSpline.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/Lagrange.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/LinearSolve.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/LinearSpline.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/Polynom.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/Spline.java" afterDir="false" />
+    <list default="true" id="64fc321e-fd31-4862-89fb-6fba6a4b77ad" name="Changes" comment="Wtf">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/MovieMaker.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/MovieMaker.kt" afterDir="false" />
     </list>
@@ -34,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="special-k" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -114,7 +107,8 @@
       <workItem from="1700842908872" duration="5989000" />
       <workItem from="1700926595906" duration="44000" />
       <workItem from="1700926643972" duration="41000" />
-      <workItem from="1700926695473" duration="38867000" />
+      <workItem from="1700926695473" duration="42006000" />
+      <workItem from="1701090830582" duration="921000" />
     </task>
     <task id="LOCAL-00001" summary="Фракталы. Начало">
       <option name="closed" value="true" />
@@ -188,7 +182,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701011427591</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Wtf">
+      <option name="closed" value="true" />
+      <created>1701027593158</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1701027593158</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -211,6 +213,7 @@
     <MESSAGE value="Return Converter and Plane" />
     <MESSAGE value="Add fractal tour menu (draft version)" />
     <MESSAGE value="Now increasing and decreasing sequences can alternate" />
-    <option name="LAST_COMMIT_MESSAGE" value="Now increasing and decreasing sequences can alternate" />
+    <MESSAGE value="Wtf" />
+    <option name="LAST_COMMIT_MESSAGE" value="Wtf" />
   </component>
 </project>
