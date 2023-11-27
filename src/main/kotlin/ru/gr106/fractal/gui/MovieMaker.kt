@@ -4,6 +4,7 @@ import drawing.Plane
 import math.Mandelbrot
 import math.splines.AnotherCubicSpline
 import math.splines.CubicMomentSpline
+import math.splines.Exponent
 import math.splines.LinearSpline
 import math.splines.Spline
 import org.jcodec.api.awt.AWTSequenceEncoder
@@ -126,27 +127,21 @@ object MovieMaker {
             sum += dt
             segmentTy.add(sum)
         }
-        val cX = mutableListOf<Double>()
-        val cY = mutableListOf<Double>()
+        val xE = mutableListOf<Exponent>()
+        val yE = mutableListOf<Exponent>()
         for (i in 0..<xsizes.size - 1) {
-            var ck = ln(xsizes[i])
-            val tk = (t0X + segmentTx[i])
             if (i % 2 == 0) {
-                ck -= c1X * tk
+                xE.add(Exponent(c1X, t0X, segmentTx[i], xsizes[i]))
             } else {
-                ck += c1X * tk
+                xE.add(Exponent(-c1X, t0X, segmentTx[i], xsizes[i]))
             }
-            cX.add(ck)
         }
         for (i in 0..<ysizes.size - 1) {
-            var ck = ln(ysizes[i])
-            val tk = (t0Y + segmentTy[i])
             if (i % 2 == 0) {
-                ck -= c1Y * tk
+                yE.add(Exponent(c1Y, t0Y, segmentTy[i], ysizes[i]))
             } else {
-                ck += c1Y * tk
+                yE.add(Exponent(-c1Y, t0Y, segmentTy[i], ysizes[i]))
             }
-            cY.add(ck)
         }
         val Sx = mutableListOf<Spline>()
         val Sy = mutableListOf<Spline>()
@@ -158,14 +153,6 @@ object MovieMaker {
             val xMin = mutableListOf<Double>()
             val yMin = mutableListOf<Double>()
             for (j in i1..i2) {
-                var tky = (ln(controlPoints[j].ySize) - cY[i]) / c1Y
-                var tkx = (ln(controlPoints[j].xSize) - cX[i]) / c1X
-                if (i % 2 == 1) {
-                    tky = -tky
-                    tkx = -tkx
-                }
-                tkx -= t0X
-                tky -= t0Y
                 xSize.add(controlPoints[j].xSize)
                 ySize.add(controlPoints[j].ySize)
                 xMin.add(controlPoints[j].xMin)
@@ -204,21 +191,11 @@ object MovieMaker {
                 yk++
             }
 
-            var dx: Double
-            if (xk % 2 == 0) {
-                dx = exp(c1X * (t0X + t) + cX[xk])
-            } else {
-                dx = exp(-c1X * (t0X + t) + cX[xk])
-            }
+            val dx = xE[xk].sb(t)
             val xx = Sx[xk].sb(dx)
 
             ///// -----------------------
-            var dy: Double
-            if (yk % 2 == 0) {
-                dy = exp(c1Y * (t0Y + t) + cY[yk])
-            } else {
-                dy = exp(-c1Y * (t0Y + t) + cY[yk])
-            }
+            val dy = yE[yk].sb(t)
             val yy = Sy[yk].sb(dy)
 
             val p = Plane(xx, xx + dx, yy, yy + dy, width, height)
