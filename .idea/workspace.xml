@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="64fc321e-fd31-4862-89fb-6fba6a4b77ad" name="Changes" comment="Now increasing and decreasing sequences can alternate">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/AnotherCubicSpline.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/CubicMomentSpline.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/Lagrange.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/LinearSolve.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/LinearSpline.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/Polynom.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/Spline.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/math/splines/CubicMomentSpline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/CubicMomentSpline.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/math/splines/LinearSolve.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/LinearSolve.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/MovieMaker.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/MovieMaker.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,7 +29,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="b7674c945953d1d9d5cdbdb0e1be0a346259fedc" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -99,6 +94,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Kotlin.MainKt" />
       </list>
     </recent_temporary>

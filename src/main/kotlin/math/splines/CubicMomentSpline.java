@@ -40,9 +40,6 @@ public class CubicMomentSpline extends Spline {
         double M1[] = LinearSolve.tridiagonal(a, b, c, B, n - 1);
         double M[] = new double[n + 1];
         for (int i = 0; i < M1.length; i++) {
-            System.out.println("y" + (i + 1) + ": " + M1[i]);
-        }
-        for (int i = 0; i < M1.length; i++) {
             M[i + 1] = M1[i];
         }
         double g1[] = new double[n + 1];

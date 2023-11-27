@@ -57,6 +57,13 @@ public class LinearSolve {
 
 
     static double[] tridiagonal(double a[], double b[], double c[], double f[], int n) {
+        if (n == 0) {
+            return new double[0];
+        }
+        if (n == 1) {
+            double y[] = {f[0] / b[0]};
+            return y;
+        }
         double K[] = new double[n];
         double L[] = new double[n];
         double y[] = new double[n];
