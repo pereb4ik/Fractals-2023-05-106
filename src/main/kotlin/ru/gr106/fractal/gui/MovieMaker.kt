@@ -13,6 +13,7 @@ import org.jcodec.common.model.Rational
 import java.awt.image.BufferedImage
 import kotlin.math.exp
 import kotlin.math.ln
+import kotlin.time.TimeSource
 
 
 object MovieMaker {
@@ -181,6 +182,8 @@ object MovieMaker {
 
         val out = NIOUtils.writableFileChannel(outputFileName)
         val encoder = AWTSequenceEncoder(out, Rational.R(fps, 1))
+        val timeSource = TimeSource.Monotonic
+        val mark1 = timeSource.markNow()
         for (f in 0..frames) {
             val t = f / (fps.toDouble())
             // find segment where placed t
@@ -208,5 +211,7 @@ object MovieMaker {
 
         encoder.finish()
         NIOUtils.closeQuietly(out)
+        val mark2 = timeSource.markNow()
+        println("render time: " + (mark2 - mark1))
     }
 }
