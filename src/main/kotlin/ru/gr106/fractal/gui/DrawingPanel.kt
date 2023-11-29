@@ -81,8 +81,9 @@ class DrawingPanel(val p:FractalPainter) : JPanel() {
                     if (d!!>step){
                         d = step
                     }
-                    p.plane?.xMin = p.plane?.xMin?.minus(d!!/ p.plane?.xDen!!)!!
-                    p.plane?.xMax = p.plane?.xMax?.minus(d!!/p.plane?.xDen!!)!!
+                    var xde = p.plane?.xDen!!
+                    p.plane?.xMin = p.plane?.xMin?.minus(d!!/xde)!!
+                    p.plane?.xMax = p.plane?.xMax?.minus(d!!/xde)!!
 
                     var d2 = e?.y?.minus(startY)
 
@@ -92,8 +93,10 @@ class DrawingPanel(val p:FractalPainter) : JPanel() {
                     if (d2!!>step){
                         d2 = step
                     }
-                    p.plane?.yMin = p.plane?.yMin?.minus(-d2!!/p.plane?.yDen!!)!!
-                    p.plane?.yMax = p.plane?.yMax?.minus(-d2!!/p.plane?.yDen!!)!!
+                    var yde = p.plane?.yDen!!
+                    p.plane?.yMin = p.plane?.yMin?.minus(-d2!!/yde)!!
+                    p.plane?.yMax = p.plane?.yMax?.minus(-d2!!/yde)!!
+
                     if (e != null) {
                         startX = e.x
                     }
