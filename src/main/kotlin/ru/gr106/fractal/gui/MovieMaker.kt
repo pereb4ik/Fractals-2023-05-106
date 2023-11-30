@@ -4,14 +4,13 @@ import drawing.Plane
 import math.Mandelbrot
 import math.splines.AnotherCubicSpline
 import math.splines.CubicMomentSpline
-import math.splines.Exponent
+import math.Exponent
 import math.splines.LinearSpline
 import math.splines.Spline
 import org.jcodec.api.awt.AWTSequenceEncoder
 import org.jcodec.common.io.NIOUtils
 import org.jcodec.common.model.Rational
 import java.awt.image.BufferedImage
-import kotlin.math.exp
 import kotlin.math.ln
 import kotlin.time.TimeSource
 
@@ -21,12 +20,16 @@ object MovieMaker {
     val controlPoints = mutableListOf<Plane>()
 
     /// time in seconds
-    val T = 5.0
+    var T = 5.0
     val fps = 24
     val outputFileName = "output.mp4"
 
+    fun setTime(t: Double) {
+        T = t
+    }
+
     // Content Pane JList
-    val cpJList = ListModelPlane(controlPoints)
+    val cpJList = ListModelPlane(controlPoints, ::setTime)
 
     fun addControlPoint(p: Plane) {
         controlPoints.add(p)

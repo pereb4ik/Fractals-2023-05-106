@@ -40,7 +40,9 @@ class DrawingPanel(val p:Painter) : JPanel() {
                 e?.let {
                     if (rect.isCreated) drawRect()
                     rect.addPoint(it.x, it.y)
-                    selectedListener.forEach { it(rect) }
+                    if(rect.notZero()) {
+                        selectedListener.forEach { it(rect) }
+                    }
                 }
             }
 

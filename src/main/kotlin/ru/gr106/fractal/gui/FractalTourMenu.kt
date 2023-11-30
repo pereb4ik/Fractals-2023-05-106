@@ -1,23 +1,24 @@
 package ru.gr106.fractal.gui
 
 import drawing.Plane
-import java.awt.BorderLayout
+import java.awt.Dimension
 import java.awt.datatransfer.DataFlavor
 import java.awt.datatransfer.StringSelection
 import java.awt.datatransfer.Transferable
 import java.awt.datatransfer.UnsupportedFlavorException
 import java.io.IOException
 import javax.swing.*
+import javax.swing.GroupLayout.PREFERRED_SIZE
 
-class ListModelPlane(val keyFrames: MutableList<Plane>) : JPanel() {
+class ListModelPlane(val keyFrames: MutableList<Plane>, val setT: (Double) -> Unit) : JPanel() {
 
     var list: JList<String>
 
     var model: DefaultListModel<String>
     var movedPlane = Plane(0.0, 0.0, 0.0, 0.0, 1, 1)
+    val controlPanel: JPanel
 
     init {
-        setLayout(BorderLayout())
         model = DefaultListModel<String>()
         list = JList(model)
         list.dragEnabled = true
@@ -82,6 +83,7 @@ class ListModelPlane(val keyFrames: MutableList<Plane>) : JPanel() {
         val addButton = JButton("Add Element")
         val removeButton = JButton("Remove Element")
         val burnButton = JButton("Burn")
+        val timeLabel = JLabel("Duration(sec.):")
 
         addButton.addActionListener {
             model.addElement("Element ")
@@ -92,10 +94,40 @@ class ListModelPlane(val keyFrames: MutableList<Plane>) : JPanel() {
         burnButton.addActionListener {
             MovieMaker.makeVideo()
         }
-        add(pane, BorderLayout.NORTH)
-        //add(addButton, BorderLayout.WEST)
-        add(burnButton, BorderLayout.WEST)
-        add(removeButton, BorderLayout.EAST)
+        val timeChoose = SpinnerNumberModel(5.0, 1.0, 100.0, 0.1)
+        timeChoose.addChangeListener {
+            setT(timeChoose.value as Double)
+        }
+        val timeSpin = JSpinner(timeChoose)
+        controlPanel = JPanel()
+        controlPanel.layout = GroupLayout(controlPanel).apply {
+            setVerticalGroup(
+                createParallelGroup(GroupLayout.Alignment.CENTER)
+                    .addComponent(burnButton)
+                    .addComponent(timeLabel)
+                    .addComponent(timeSpin)
+                    .addComponent(removeButton)
+            )
+            setHorizontalGroup(
+                createSequentialGroup()
+                    .addComponent(burnButton)
+                    .addComponent(timeLabel)
+                    .addComponent(timeSpin)
+                    .addComponent(removeButton)
+            )
+        }
+        layout = GroupLayout(this).apply {
+            setVerticalGroup(
+                createSequentialGroup()
+                    .addComponent(pane)
+                    .addComponent(controlPanel, PREFERRED_SIZE, PREFERRED_SIZE, PREFERRED_SIZE)
+            )
+            setHorizontalGroup(
+                createParallelGroup()
+                    .addComponent(pane)
+                    .addComponent(controlPanel, PREFERRED_SIZE, PREFERRED_SIZE, PREFERRED_SIZE)
+            )
+        }
     }
 
     fun addItem(s: String) {
@@ -119,5 +151,10 @@ class FractalTourMenu : JFrame() {
         contentPane = MovieMaker.cpJList
         setSize(260, 200)
         isVisible = true
+        val cp = MovieMaker.cpJList.controlPanel
+        minimumSize = Dimension(cp.width, 200)
+        //maximumSize = Dimension(list.preferredSize.width, cp.width)
+        maximumSize = Dimension(cp.width, Int.MAX_VALUE)
+        //pack()
     }
 }
