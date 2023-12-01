@@ -116,6 +116,10 @@ class Window : JFrame() {
         file.add(save)
         save.addActionListener { _: ActionEvent -> saveFunc() }
 
+        val load = JMenuItem("Загрузить проект")
+        file.add(load)
+        load.addActionListener { _: ActionEvent -> loadFunc() }
+
         val edit = JMenu("Изменить")
         edit.setMnemonic('И')
         menuBar.add(edit)
@@ -170,6 +174,9 @@ class Window : JFrame() {
         return menuBar
     }
 
+    private fun loadFunc() {
+
+    }
 
 
     private fun joulbertFunc() {
