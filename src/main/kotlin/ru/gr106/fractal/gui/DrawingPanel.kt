@@ -60,9 +60,11 @@ class DrawingPanel(val p:FractalPainter) : JPanel() {
                 }
                 if (e?.button == MouseEvent.BUTTON1) {
                     e?.let {
-                    if (rect.isCreated) drawRect()
-                    rect.addPoint(it.x, it.y)
-                    selectedListener.forEach { it(rect) }
+                        if (rect.isCreated) drawRect()
+                        rect.addPoint(it.x, it.y)
+                        if (rect.notZero()) {
+                            selectedListener.forEach { it(rect) }
+                        }
                     }
                 }
             }

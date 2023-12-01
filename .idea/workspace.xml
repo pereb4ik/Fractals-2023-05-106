@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="64fc321e-fd31-4862-89fb-6fba6a4b77ad" name="Changes" comment="">
+    <list default="true" id="6feea6c6-822c-4191-94e6-1bb11229bc7b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/jcodec_javase.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/drawing/Converter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/drawing/Plane.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/Exponent.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/AnotherCubicSpline.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/CubicMomentSpline.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/Lagrange.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/LinearSolve.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/LinearSpline.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/Polynom.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/math/splines/Spline.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/FractalTourMenu.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/MovieMaker.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Converter.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/jcodec.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/jcodec.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Fractals-2023.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Fractals-2023.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/Converter.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/math/Mandelbrot.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/math/Mandelbrot.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/DrawingPanel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/DrawingPanel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/FractalPainter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/FractalPainter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/SelectionRect.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/SelectionRect.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/Window.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/Window.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -13,53 +33,8 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Kotlin File" />
-        <option value="Kotlin Interface" />
-        <option value="Kotlin Class" />
-      </list>
-    </option>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 0
-}</component>
-  <component name="ProjectId" id="2XFFDD6GxV5sZrIMAjndJ4qIphW" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
-  </component>
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Прога/IdeaProjects/Fractals-2023-05-106(1)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.48081535&quot;
-  }
-}</component>
-  <component name="RecentsManager">
-    <key name="CreateKotlinClassDialog.RecentsKey">
-      <recent name="ru.gr106.fractal.gui" />
-    </key>
-    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
-      <recent name="drawing" />
-    </key>
   </component>
   <component name="RunManager">
     <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
@@ -75,81 +50,18 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="64fc321e-fd31-4862-89fb-6fba6a4b77ad" name="Changes" comment="" />
-      <created>1698216800984</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1698216800984</updated>
-    </task>
-    <task id="LOCAL-00001" summary="Фракталы. Начало">
-      <option name="closed" value="true" />
-      <created>1698841559932</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1698841559932</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Рисование выделительной рамки">
-      <option name="closed" value="true" />
-      <created>1699427217411</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1699427217411</updated>
-    </task>
-    <task id="LOCAL-00003" summary="масштабирование фракткала">
-      <option name="closed" value="true" />
-      <created>1699444030305</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1699444030305</updated>
-    </task>
-    <task id="LOCAL-00004" summary="масштабирование фракткала">
-      <option name="closed" value="true" />
-      <created>1699446790576</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1699446790576</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Меню">
-      <option name="closed" value="true" />
-      <created>1700414269730</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1700414269730</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Меню">
-      <option name="closed" value="true" />
-      <created>1700414416085</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1700414416085</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Меню(исправлены некоторые ошибки)">
-      <option name="closed" value="true" />
-      <created>1700465360629</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1700465360629</updated>
-    </task>
-    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Фракталы. Начало" />
-    <MESSAGE value="Рисование выделительной рамки" />
-    <MESSAGE value="масштабирование фракткала" />
-    <MESSAGE value="Меню" />
-    <MESSAGE value="Меню(исправлены некоторые ошибки)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Меню(исправлены некоторые ошибки)" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

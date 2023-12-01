@@ -1,7 +1,7 @@
 package ru.gr106.fractal.gui
 
-import ru.smak.drawing.Converter
-import ru.smak.drawing.Plane
+import drawing.Converter
+import drawing.Plane
 import math.Mandelbrot
 import ru.gr106.fractal.main
 import java.awt.Color
@@ -31,7 +31,7 @@ class Window : JFrame() {
     private val mainPanel: DrawingPanel
     private val fp: FractalPainter
 
-    init{
+    init {
         fp = FractalPainter(Mandelbrot)
         val menuBar = createMenuBar()
         defaultCloseOperation = EXIT_ON_CLOSE
@@ -40,7 +40,7 @@ class Window : JFrame() {
 
 
 
-        mainPanel.addComponentListener(object : ComponentAdapter(){
+        mainPanel.addComponentListener(object : ComponentAdapter() {
             override fun componentResized(e: ComponentEvent?) {
                 fp.plane?.width = mainPanel.width
                 fp.plane?.height = mainPanel.height
@@ -49,7 +49,7 @@ class Window : JFrame() {
                 mainPanel.repaint()
             }
         })
-        mainPanel.addSelectedListener {rect ->
+        mainPanel.addSelectedListener { rect ->
             fp.plane?.let {
                 val xMin = Converter.xScr2Crt(rect.x, it)
                 val yMax = Converter.yScr2Crt(rect.y, it)
@@ -59,8 +59,8 @@ class Window : JFrame() {
                 it.yMin = yMin
                 it.xMax = xMax
                 it.yMax = yMax
-
                 fp.previous_img = null
+                MovieMaker.addControlPoint(it.copy())
                 mainPanel.repaint()
             }
         }
@@ -88,17 +88,19 @@ class Window : JFrame() {
         }
         pack()
         fp.plane = Plane(-2.0, 1.0, -1.0, 1.0, mainPanel.width, mainPanel.height)
+        fp.plane?.let { plane ->
+            MovieMaker.addControlPoint(plane.copy())
+        }
         fp.pointColor = {
             if (it == 1f) Color.BLACK else
-            Color(
-                0.5f*(1-cos(16f*it*it)).absoluteValue,
-                sin(5f*it).absoluteValue,
-                log10(1f + 5*it).absoluteValue
-            )
+                Color(
+                    0.5f * (1 - cos(16f * it * it)).absoluteValue,
+                    sin(5f * it).absoluteValue,
+                    log10(1f + 5 * it).absoluteValue
+                )
         }
+        MovieMaker.fpp = fp
     }
-
-
 
 
     private fun createMenuBar(): JMenuBar {
@@ -135,7 +137,7 @@ class Window : JFrame() {
         val theme = JMenuItem("Тема")
         edit.add(theme)
         theme.setMnemonic('Т')
-        theme.addActionListener { _: ActionEvent -> themeFunc()}
+        theme.addActionListener { _: ActionEvent -> themeFunc() }
 
         val observe = JMenu("Обозреть")
         observe.setMnemonic('О')
@@ -144,12 +146,12 @@ class Window : JFrame() {
 
         val joulbert = JMenuItem("Отрисовать множество Жюльберта")
         joulbert.setMnemonic('Ж')
-        joulbert.addActionListener { _: ActionEvent -> joulbertFunc()}
+        joulbert.addActionListener { _: ActionEvent -> joulbertFunc() }
         observe.add(joulbert)
 
         val view = JMenuItem("Экскурсия")
         view.setMnemonic('Э')
-        view.addActionListener { _: ActionEvent -> viewFunc()}
+        view.addActionListener { _: ActionEvent -> viewFunc() }
         observe.add(view)
 
         /*
@@ -178,7 +180,6 @@ class Window : JFrame() {
 
     }
 
-
     private fun joulbertFunc() {
 
     }
@@ -190,15 +191,17 @@ class Window : JFrame() {
     private fun redoFunc() {
 
     }
-    private fun saveJPGFunc(){
+
+    private fun saveJPGFunc() {
 
     }
-    private fun saveFunc(){
+
+    private fun saveFunc() {
 
     }
 
     private fun viewFunc() {
-
+        FractalTourMenu()
     }
 
     private fun undoFunc() {
