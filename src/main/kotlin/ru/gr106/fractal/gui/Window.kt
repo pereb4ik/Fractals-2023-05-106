@@ -88,6 +88,7 @@ class Window : JFrame() {
         }
         pack()
         fp.plane = Plane(-2.0, 1.0, -1.0, 1.0, mainPanel.width, mainPanel.height)
+        /*
         fp.pointColor = {
             if (it == 1f) Color.BLACK else
             Color(
@@ -96,9 +97,38 @@ class Window : JFrame() {
                 log10(1f + 5*it).absoluteValue
             )
         }
+         */
+
+        fp.pointColor = {
+            if (it == 1f) Color.BLACK else
+                Color(
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                    (2*asin(it + PI*(sin(it)))/PI).absoluteValue.toFloat(),
+                    (2*atan(it + PI*(tan(it)))/ PI).absoluteValue.toFloat(),
+                    (2*acos(it+ PI*(cos(it)))/PI).absoluteValue.toFloat(),
+                )
+        }
     }
 
+/*
+удачные темы
 
+красная:
+cos(it+PI*(0.5+sin(it))).absoluteValue.toFloat(),
+cos(it + PI*(0.5+cos(it))).absoluteValue.toFloat(),
+(0.1*cos(it)).absoluteValue.toFloat(),
+
+сереневенькое
+cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
+                    (2*atan(it + PI*(tan(it)))/ PI).absoluteValue.toFloat(),
+                    cos(it+PI*(0.5+sin(it))).absoluteValue.toFloat(),
+
+желто-зеленый
+(2*asin(it + PI*(sin(it)))/PI).absoluteValue.toFloat(),
+                    (2*atan(it + PI*(tan(it)))/ PI).absoluteValue.toFloat(),
+                    (2*acos(it+ PI*(cos(it)))/PI).absoluteValue.toFloat(),
+ */
 
 
     private fun createMenuBar(): JMenuBar {
