@@ -2,15 +2,15 @@ package ru.gr106.fractal.gui
 
 import drawing.Plane
 import math.Mandelbrot
-import math.splines.AnotherCubicSpline
 import math.splines.CubicMomentSpline
 import math.Exponent
-import math.splines.LinearSpline
 import math.splines.Spline
 import org.jcodec.api.awt.AWTSequenceEncoder
 import org.jcodec.common.io.NIOUtils
 import org.jcodec.common.model.Rational
 import java.awt.image.BufferedImage
+import javax.swing.ImageIcon
+import javax.swing.JLabel
 import kotlin.math.ln
 import kotlin.time.TimeSource
 
@@ -29,11 +29,21 @@ object MovieMaker {
     }
 
     // Content Pane JList
-    val cpJList = ListModelPlane(controlPoints, ::setTime)
+    val cpJList = ListModelPlane(controlPoints, ::setTime, ::addControlPoint)
 
-    fun addControlPoint(p: Plane) {
-        controlPoints.add(p)
-        cpJList.addItem(p.toString())
+    fun addControlPoint() {
+        fpp.plane?.let { p ->
+            controlPoints.add(p.copy())
+            val pp = p.copy()
+            p.width /= 4
+            p.height /= 4
+            val buff = BufferedImage(p.width, p.height, BufferedImage.TYPE_INT_RGB)
+            fpp.previous_img = null
+            fpp.paint(buff.graphics)
+            fpp.previous_img = null
+            cpJList.addItem(JLabel(p.str(), ImageIcon(buff), JLabel.RIGHT))
+            fpp.plane = pp
+        }
     }
 
     fun printKeyFrames() {
@@ -207,6 +217,7 @@ object MovieMaker {
             val p = Plane(xx, xx + dx, yy, yy + dy, width, height)
             fp.plane = p
             val buff = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
+            fp.previous_img = null
             fp.paint(buff.graphics)
             println("encode frame:F${f}")
             encoder.encodeImage(buff)

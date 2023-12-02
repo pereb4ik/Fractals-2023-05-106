@@ -20,4 +20,13 @@ data class Plane (
 
     val S: Double
         get() = xSize * ySize
+
+    fun str(): String {
+        return "<html>xMin=$xMin,<br>" +
+                "xMax=$xMax,<br>" +
+                "yMin=$yMin,<br>" +
+                "yMax=$xMax,<br>" +
+                "width=$width,<br>" +
+                "height=$height</html>"
+    }
 }

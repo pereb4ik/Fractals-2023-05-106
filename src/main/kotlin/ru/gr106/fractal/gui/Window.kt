@@ -60,7 +60,6 @@ class Window : JFrame() {
                 it.xMax = xMax
                 it.yMax = yMax
                 fp.previous_img = null
-                MovieMaker.addControlPoint(it.copy())
                 mainPanel.repaint()
             }
         }
@@ -88,9 +87,6 @@ class Window : JFrame() {
         }
         pack()
         fp.plane = Plane(-2.0, 1.0, -1.0, 1.0, mainPanel.width, mainPanel.height)
-        fp.plane?.let { plane ->
-            MovieMaker.addControlPoint(plane.copy())
-        }
         fp.pointColor = {
             if (it == 1f) Color.BLACK else
                 Color(

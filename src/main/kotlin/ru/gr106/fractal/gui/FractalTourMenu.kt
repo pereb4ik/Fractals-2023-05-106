@@ -1,28 +1,56 @@
 package ru.gr106.fractal.gui
 
 import drawing.Plane
+import java.awt.Component
 import java.awt.Dimension
 import java.awt.datatransfer.DataFlavor
-import java.awt.datatransfer.StringSelection
 import java.awt.datatransfer.Transferable
 import java.awt.datatransfer.UnsupportedFlavorException
 import java.io.IOException
 import javax.swing.*
 import javax.swing.GroupLayout.PREFERRED_SIZE
 
-class ListModelPlane(val keyFrames: MutableList<Plane>, val setT: (Double) -> Unit) : JPanel() {
+class JLabelSelection(val data: JLabel) : Transferable {
+    override fun getTransferDataFlavors(): Array<DataFlavor> {
+        return emptyArray()
+    }
 
-    var list: JList<String>
+    override fun isDataFlavorSupported(flavor: DataFlavor?): Boolean {
+        return true
+    }
 
-    var model: DefaultListModel<String>
+    override fun getTransferData(flavor: DataFlavor?): Any {
+        return data
+    }
+}
+
+class ListModelPlane(val keyFrames: MutableList<Plane>, val setT: (Double) -> Unit, val addP: () -> Unit) : JPanel() {
+    var list: JList<JLabel>
+
+    var model: DefaultListModel<JLabel> = DefaultListModel<JLabel>()
     var movedPlane = Plane(0.0, 0.0, 0.0, 0.0, 1, 1)
     val controlPanel: JPanel
 
     init {
-        model = DefaultListModel<String>()
         list = JList(model)
         list.dragEnabled = true
         list.dropMode = DropMode.INSERT
+        //https://stackoverflow.com/questions/22266506/how-to-add-image-in-jlist
+        list.cellRenderer = object : DefaultListCellRenderer() {
+            override fun getListCellRendererComponent(
+                list: JList<*>?,
+                value: Any?,
+                index: Int,
+                isSelected: Boolean,
+                cellHasFocus: Boolean
+            ): Component {
+                val label = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus) as JLabel
+                label.icon = model[index].icon
+                label.text = model[index].text
+                label.verticalTextPosition = JLabel.CENTER
+                return label
+            }
+        }
         // https://stackoverflow.com/questions/16586562/reordering-jlist-with-drag-and-drop
         // https://docs.oracle.com/javase/tutorial/uiswing/dnd/dropmodedemo.html
         list.transferHandler = object : TransferHandler() {
@@ -39,7 +67,7 @@ class ListModelPlane(val keyFrames: MutableList<Plane>, val setT: (Double) -> Un
             override fun createTransferable(comp: JComponent): Transferable {
                 index = list.selectedIndex
                 movedPlane = keyFrames[index]
-                return StringSelection(list.getSelectedValue())
+                return JLabelSelection(list.getSelectedValue())
             }
 
             @Override
@@ -57,13 +85,13 @@ class ListModelPlane(val keyFrames: MutableList<Plane>, val setT: (Double) -> Un
 
             @Override
             override fun canImport(support: TransferSupport): Boolean {
-                return support.isDataFlavorSupported(DataFlavor.stringFlavor)
+                return true
             }
 
             @Override
             override fun importData(support: TransferSupport): Boolean {
                 try {
-                    val s = (support.getTransferable().getTransferData(DataFlavor.stringFlavor)) as String
+                    val s = (support.getTransferable().getTransferData(DataFlavor.stringFlavor)) as JLabel
                     val dl: JList.DropLocation = (support.getDropLocation()) as JList.DropLocation
                     model.add(dl.index, s)
                     keyFrames.add(dl.index, movedPlane)
@@ -80,13 +108,13 @@ class ListModelPlane(val keyFrames: MutableList<Plane>, val setT: (Double) -> Un
         }
         // http://www.java2s.com/Code/Java/Swing-JFC/AnexampleofJListwithaDefaultListModel.htm
         val pane = JScrollPane(list)
-        val addButton = JButton("Add Element")
-        val removeButton = JButton("Remove Element")
+        val addButton = JButton("Add frame")
+        val removeButton = JButton("Remove frame")
         val burnButton = JButton("Burn")
         val timeLabel = JLabel("Duration(sec.):")
 
         addButton.addActionListener {
-            model.addElement("Element ")
+            addP()
         }
         removeButton.addActionListener {
             removeSelectedItem()
@@ -106,6 +134,7 @@ class ListModelPlane(val keyFrames: MutableList<Plane>, val setT: (Double) -> Un
                     .addComponent(burnButton)
                     .addComponent(timeLabel)
                     .addComponent(timeSpin)
+                    .addComponent(addButton)
                     .addComponent(removeButton)
             )
             setHorizontalGroup(
@@ -113,6 +142,7 @@ class ListModelPlane(val keyFrames: MutableList<Plane>, val setT: (Double) -> Un
                     .addComponent(burnButton)
                     .addComponent(timeLabel)
                     .addComponent(timeSpin)
+                    .addComponent(addButton)
                     .addComponent(removeButton)
             )
         }
@@ -130,8 +160,8 @@ class ListModelPlane(val keyFrames: MutableList<Plane>, val setT: (Double) -> Un
         }
     }
 
-    fun addItem(s: String) {
-        model.addElement(s)
+    fun addItem(label: JLabel) {
+        model.addElement(label)
     }
 
     fun removeSelectedItem() {
