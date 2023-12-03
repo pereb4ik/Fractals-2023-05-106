@@ -3,33 +3,26 @@ package ru.gr106.fractal.gui
 import ru.smak.drawing.Converter
 import ru.smak.drawing.Plane
 import math.Mandelbrot
-import ru.gr106.fractal.main
 import java.awt.Color
-import java.awt.Component
 import java.awt.Dimension
-import java.awt.Graphics
-import java.awt.MenuBar
 import java.awt.event.ActionEvent
-import java.awt.event.ActionListener
 import java.awt.event.ComponentAdapter
 import java.awt.event.ComponentEvent
-import java.awt.event.ComponentListener
 import javax.swing.GroupLayout
 import javax.swing.GroupLayout.PREFERRED_SIZE
-import javax.swing.JButton
 import javax.swing.JFrame
 import javax.swing.JMenu
 import javax.swing.JMenuBar
 import javax.swing.JMenuItem
-import javax.swing.JPanel
-import javax.swing.JPopupMenu
-import javax.swing.event.MenuListener
 import kotlin.math.*
 
 class Window : JFrame() {
 
     private val mainPanel: DrawingPanel
     private val fp: FractalPainter
+    var themes: Map<String, (Float) -> Color> = mapOf()
+
+
 
     init{
         fp = FractalPainter(Mandelbrot)
@@ -38,7 +31,41 @@ class Window : JFrame() {
         minimumSize = Dimension(600, 550)
         mainPanel = DrawingPanel(fp)
 
+        themes = mapOf(
+            "green" to {
+                if (it == 1f) Color.BLACK else
+                    Color(
+                        0.5f * (1 - cos(16f * it * it)).absoluteValue,
+                        sin(5f * it).absoluteValue,
+                        log10(1f + 5 * it).absoluteValue
+                    )
+            },
+            "red" to {
+                if (it == 1f) Color.BLACK else
+                    Color(
+                        cos(it + PI * (0.5 + sin(it))).absoluteValue.toFloat(),
+                        cos(it + PI * (0.5 + cos(it))).absoluteValue.toFloat(),
+                        (0.1 * cos(it)).absoluteValue.toFloat(),
+                    )
 
+            },
+            "lilac" to {
+                if (it == 1f) Color.BLACK else
+                    Color(
+                        cos(it + PI * (0.5 + it)).absoluteValue.toFloat(),
+                        (2 * atan(it + PI * (tan(it))) / PI).absoluteValue.toFloat(),
+                        cos(it + PI * (0.5 + sin(it))).absoluteValue.toFloat(),
+                    )
+            },
+            "yellow-green" to {
+                if (it == 1f) Color.BLACK else
+                    Color(
+                        (2 * asin(it + PI * (sin(it))) / PI).absoluteValue.toFloat(),
+                        (2 * atan(it + PI * (tan(it))) / PI).absoluteValue.toFloat(),
+                        (2 * acos(it + PI * (cos(it))) / PI).absoluteValue.toFloat()
+                    )
+            }
+        )
 
         mainPanel.addComponentListener(object : ComponentAdapter(){
             override fun componentResized(e: ComponentEvent?) {
@@ -96,9 +123,37 @@ class Window : JFrame() {
                 log10(1f + 5*it).absoluteValue
             )
         }
+
+//        fp.pointColor = {
+//            if (it == 1f) Color.BLACK else
+//                Color(
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                    (2*asin(it + PI*(tan(it)))/PI).absoluteValue.toFloat(),
+//                    (2* atan(it + PI*(1-cos(it))) / PI).absoluteValue.toFloat(),
+//                    (2*acos(it+ PI*(1-sin(it)))/PI).absoluteValue.toFloat(),
+//                )
+//        }
     }
 
+/*
+удачные темы
 
+красная:
+cos(it+PI*(0.5+sin(it))).absoluteValue.toFloat(),
+cos(it + PI*(0.5+cos(it))).absoluteValue.toFloat(),
+(0.1*cos(it)).absoluteValue.toFloat(),
+
+сиреневенькое
+cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
+                    (2*atan(it + PI*(tan(it)))/ PI).absoluteValue.toFloat(),
+                    cos(it+PI*(0.5+sin(it))).absoluteValue.toFloat(),
+
+желто-зеленый
+(2*asin(it + PI*(sin(it)))/PI).absoluteValue.toFloat(),
+                    (2*atan(it + PI*(tan(it)))/ PI).absoluteValue.toFloat(),
+                    (2*acos(it+ PI*(cos(it)))/PI).absoluteValue.toFloat(),
+ */
 
 
     private fun createMenuBar(): JMenuBar {
@@ -132,10 +187,45 @@ class Window : JFrame() {
         edit.add(redo)
         redo.addActionListener { _: ActionEvent -> redoFunc() }
 
-        val theme = JMenuItem("Тема")
+        val theme = JMenu("Тема")
         edit.add(theme)
         theme.setMnemonic('Т')
-        theme.addActionListener { _: ActionEvent -> themeFunc()}
+
+        val greenTheme = JMenuItem("Зелёная тема")
+        theme.add(greenTheme)
+        greenTheme.setMnemonic('З')
+        greenTheme.addActionListener { _: ActionEvent ->
+            fp.pointColor = themes["green"]!!
+            fp.previous_img = null
+            mainPanel.repaint()
+        }
+
+        val redTheme = JMenuItem("Красная тема")
+        theme.add(redTheme)
+        redTheme.setMnemonic('К')
+        redTheme.addActionListener { _: ActionEvent ->
+            fp.pointColor = themes["red"]!!
+            fp.previous_img = null
+            mainPanel.repaint()
+        }
+
+        val lilacTheme = JMenuItem("Сиреневая тема")
+        theme.add(lilacTheme)
+        lilacTheme.setMnemonic('С')
+        lilacTheme.addActionListener { _: ActionEvent ->
+            fp.pointColor = themes["lilac"]!!
+            fp.previous_img = null
+            mainPanel.repaint()
+        }
+
+        val yellowGreenTheme = JMenuItem("Желто-зелёная тема")
+        theme.add(yellowGreenTheme)
+        yellowGreenTheme.setMnemonic('Ж')
+        yellowGreenTheme.addActionListener { _: ActionEvent ->
+            fp.pointColor = themes["yellow-green"]!!
+            fp.previous_img = null
+            mainPanel.repaint()
+        }
 
         val observe = JMenu("Обозреть")
         observe.setMnemonic('О')
@@ -180,10 +270,6 @@ class Window : JFrame() {
 
 
     private fun joulbertFunc() {
-
-    }
-
-    private fun themeFunc() {
 
     }
 
