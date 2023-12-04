@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="64fc321e-fd31-4862-89fb-6fba6a4b77ad" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screen.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/Window.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/Window.kt" afterDir="false" />
     </list>
@@ -161,7 +161,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701431849622</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Сохранение в .jpg часть 1">
+      <option name="closed" value="true" />
+      <created>1701677095313</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1701677095313</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -172,6 +180,7 @@
     <MESSAGE value="Меню" />
     <MESSAGE value="Меню(исправлены некоторые ошибки)" />
     <MESSAGE value="Меню(добавлен пункт загрузки проекта)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Меню(добавлен пункт загрузки проекта)" />
+    <MESSAGE value="Сохранение в .jpg часть 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Сохранение в .jpg часть 1" />
   </component>
 </project>

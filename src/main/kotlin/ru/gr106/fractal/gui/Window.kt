@@ -59,13 +59,13 @@ class Window : JFrame() {
                     )
 
             },
-            "lilac" to {
+            "red-blue" to {
                 if (it == 1f) Color.BLACK else
                     Color(
-                        cos(it + PI * (0.5 + it)).absoluteValue.toFloat(),
-                        (2 * atan(it + PI * (tan(it))) / PI).absoluteValue.toFloat(),
-                        cos(it + PI * (0.5 + sin(it))).absoluteValue.toFloat(),
-                    )
+                        (0.5*cos(it + PI * (0.5 + it))).absoluteValue.toFloat(),
+                        (0.1*cos(it + PI * (0.5 + sin(it)))).absoluteValue.toFloat(),
+                        (2 * atan(it*tan(it) + PI * (tan(it)*tan(it))) / PI).absoluteValue.toFloat(),
+                    ).brighter()
             },
             "yellow-green" to {
                 if (it == 1f) Color.BLACK else
@@ -212,11 +212,11 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
             mainPanel.repaint()
         }
 
-        val lilacTheme = JMenuItem("Сиреневая тема")
+        val lilacTheme = JMenuItem("Красно-синяя тема")
         theme.add(lilacTheme)
         lilacTheme.setMnemonic('С')
         lilacTheme.addActionListener { _: ActionEvent ->
-            fp.pointColor = themes["lilac"]!!
+            fp.pointColor = themes["red-blue"]!!
             fp.previous_img = null
             mainPanel.repaint()
         }
