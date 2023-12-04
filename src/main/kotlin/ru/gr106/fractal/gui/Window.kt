@@ -4,17 +4,13 @@ import ru.smak.drawing.Converter
 import ru.smak.drawing.Plane
 import math.Mandelbrot
 import java.awt.Color
-import java.awt.Composite
 import java.awt.Dimension
 import java.awt.Graphics
 import java.awt.event.ActionEvent
 import java.awt.event.ComponentAdapter
 import java.awt.event.ComponentEvent
 import java.awt.image.BufferedImage
-import java.awt.image.ImageObserver
 import java.io.File
-import java.io.FilePermission
-import java.io.FilenameFilter
 import javax.imageio.ImageIO
 import javax.swing.GroupLayout
 import javax.swing.GroupLayout.PREFERRED_SIZE
@@ -23,7 +19,6 @@ import javax.swing.JFrame
 import javax.swing.JMenu
 import javax.swing.JMenuBar
 import javax.swing.JMenuItem
-import javax.swing.filechooser.FileNameExtensionFilter
 import kotlin.math.*
 
 class Window : JFrame() {
@@ -283,29 +278,88 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
         val fileChooser = JFileChooser()
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
         val ok = fileChooser.showSaveDialog(null)
-        val path: String? = fileChooser.selectedFile.toString()
-
+        var path: String? = fileChooser.selectedFile.toString()
+        if (path.isNullOrEmpty() ||
+            path == " " ||
+            path.length < 5
+            ) path = null
+        else if(path.last() == '\\') path+= "fractal.jpg"
+        else if (!path.endsWith(".jpg")) path += ".jpg"
         if (ok==0) {
+            println(path)
             var bufferedImage = BufferedImage(
                 fp.width + 10,
-                fp.height + 10,
+                fp.height + 40,
                 BufferedImage.TYPE_INT_RGB
             )
             val g: Graphics = bufferedImage.createGraphics().also {
-                it.color = Color.RED
+                it.color = Color.WHITE
             }
             fp.previous_img?.let {
                 g.drawImage(
                     it,
-                    0,
                     10,
+                    0,
                     null
                 )
+                //g.drawLine(0, 0, 0, bufferedImage.height)
 
-                g.fillOval(0,0, 50, 50)
+                fp.plane?.let { plane ->
+                    val epsY = Converter.yScr2Crt(0, plane) - Converter.yScr2Crt(1, plane)
+                    var step = (Converter.yScr2Crt(fp.height, plane) - Converter.yScr2Crt(0, plane))/8.0
+                    for (yS in 0..fp.height) {
+                        val y = Converter.yScr2Crt(yS,plane)
+                        var h = 5
+                        if (abs(y % step) < epsY){
+                            if (abs(y % (2*step)) < epsY){
+                                h += 5
+                            }
+                            g.drawLine(0, yS, h, yS)
+                        }
+                    }
+
+                    val string1 = "XMin = ${Converter.xScr2Crt(0, plane)}," +
+                            " XMax = ${Converter.xScr2Crt(fp.width, plane)}"
+                    val string2 = "YMin = ${Converter.yScr2Crt(0, plane)}," +
+                            " YMax = ${Converter.yScr2Crt(fp.height, plane)}"
+                    with(g.fontMetrics.getStringBounds(string1, g)) {
+                        g.drawString(
+                            string1,
+                            ((fp.width / 2) - width/2).toInt(),
+                            (bufferedImage.height - height).toInt()
+                        )
+                        g.drawString(
+                            string2,
+                            ((fp.width / 2) - width/2).toInt(),
+                            (bufferedImage.height ).toInt()
+                        )
+
+//                        g.drawLine(0,
+//                            (bufferedImage.height - 2*height).toInt(),
+//                            bufferedImage.width,
+//                            (bufferedImage.height - 2*height).toInt()
+//                        )
+
+                        val epsX = Converter.xScr2Crt(1, plane) - Converter.xScr2Crt(0, plane)
+                        step = (Converter.xScr2Crt(fp.width, plane) - Converter.xScr2Crt(0, plane))/8.0
+                        for (xS in 0..fp.width) {
+                            val x = Converter.xScr2Crt(xS,plane)
+                            var h = 5
+                            if (abs(x % step) < epsX){
+                                if (abs(x % (2*step)) < epsX){
+                                    h += 5
+                                }
+                                g.drawLine(xS,(bufferedImage.height - 2*height).toInt(),
+                                    xS, (bufferedImage.height - 2*height).toInt() - h)
+                            }
+                        }
+                    }
+                }
             }
-            ImageIO.write(bufferedImage, "jpg", File("screen.jpg"))
 
+            path?.let {
+                ImageIO.write(bufferedImage, "jpg", File("screen.jpg"))
+            }
         }
     }
     private fun saveFunc(){
