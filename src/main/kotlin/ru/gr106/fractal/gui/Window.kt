@@ -287,7 +287,7 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
         else if (!path.endsWith(".jpg")) path += ".jpg"
         if (ok==0) {
             println(path)
-            var bufferedImage = BufferedImage(
+            val bufferedImage = BufferedImage(
                 fp.width + 10,
                 fp.height + 40,
                 BufferedImage.TYPE_INT_RGB
@@ -331,7 +331,7 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
                         g.drawString(
                             string2,
                             ((fp.width / 2) - width/2).toInt(),
-                            (bufferedImage.height ).toInt()
+                            (bufferedImage.height )
                         )
 
 //                        g.drawLine(0,
