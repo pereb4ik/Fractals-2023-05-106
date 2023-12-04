@@ -283,11 +283,11 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
             path == " " ||
             path.length < 5
             ) path = null
-        else if(!path.endsWith("\\")) path+= "\\fractal.jpg"
+        else if(path.last() == '\\') path+= "\\fractal.jpg"
         else if (!path.endsWith(".jpg")) path += ".jpg"
         if (ok==0) {
             println(path)
-            val bufferedImage = BufferedImage(
+            var bufferedImage = BufferedImage(
                 fp.width + 10,
                 fp.height + 40,
                 BufferedImage.TYPE_INT_RGB
@@ -331,7 +331,7 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
                         g.drawString(
                             string2,
                             ((fp.width / 2) - width/2).toInt(),
-                            (bufferedImage.height )
+                            (bufferedImage.height ).toInt()
                         )
 
 //                        g.drawLine(0,
