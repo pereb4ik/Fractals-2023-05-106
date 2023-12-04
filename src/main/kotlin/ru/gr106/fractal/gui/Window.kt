@@ -5,11 +5,16 @@ import ru.smak.drawing.Plane
 import math.Mandelbrot
 import java.awt.Color
 import java.awt.Dimension
+import java.awt.Graphics
 import java.awt.event.ActionEvent
 import java.awt.event.ComponentAdapter
 import java.awt.event.ComponentEvent
+import java.awt.image.BufferedImage
+import java.io.File
+import javax.imageio.ImageIO
 import javax.swing.GroupLayout
 import javax.swing.GroupLayout.PREFERRED_SIZE
+import javax.swing.JFileChooser
 import javax.swing.JFrame
 import javax.swing.JMenu
 import javax.swing.JMenuBar
@@ -18,8 +23,6 @@ import kotlin.math.*
 
 class Window : JFrame() {
 
-
-    private val const = ln(15.0)
     private val mainPanel: DrawingPanel
     private val fp: FractalPainter
     var themes: Map<String, (Float) -> Color> = mapOf()
@@ -37,7 +40,7 @@ class Window : JFrame() {
             "green" to {
                 if (it == 1f) Color.BLACK else
                     Color(
-                        0.5f * (1 - cos(16f * it* it)).absoluteValue,
+                        0.5f * (1 - cos(16f * it * it)).absoluteValue,
                         sin(5f * it).absoluteValue,
                         log10(1f + 5 * it).absoluteValue
                     )
@@ -51,13 +54,13 @@ class Window : JFrame() {
                     )
 
             },
-            "lilac" to {
+            "red-blue" to {
                 if (it == 1f) Color.BLACK else
                     Color(
-                        cos(it + PI * (0.5 + it)).absoluteValue.toFloat(),
-                        (2 * atan(it + PI * (tan(it))) / PI).absoluteValue.toFloat(),
-                        cos(it + PI * (0.5 + sin(it))).absoluteValue.toFloat(),
-                    )
+                        (0.5*cos(it + PI * (0.5 + it))).absoluteValue.toFloat(),
+                        (0.1*cos(it + PI * (0.5 + sin(it)))).absoluteValue.toFloat(),
+                        (2 * atan(it*tan(it) + PI * (tan(it)*tan(it))) / PI).absoluteValue.toFloat(),
+                    ).brighter()
             },
             "yellow-green" to {
                 if (it == 1f) Color.BLACK else
@@ -80,10 +83,6 @@ class Window : JFrame() {
         })
         mainPanel.addSelectedListener {rect ->
             fp.plane?.let {
-                val pxMin = it.xMin
-                val pxMax = it.xMax
-                val pyMin = it.yMin
-                val pyMax = it.yMax
                 val xMin = Converter.xScr2Crt(rect.x, it)
                 val yMax = Converter.yScr2Crt(rect.y, it)
                 val xMax = Converter.xScr2Crt(rect.x + rect.width, it)
@@ -92,7 +91,7 @@ class Window : JFrame() {
                 it.yMin = yMin
                 it.xMax = xMax
                 it.yMax = yMax
-                fp.maxIteration = (fp.maxIteration*ln((pxMax-pxMin)*(pyMax-pyMin)/((it.xMax-it.xMin)*(it.yMax-it.yMin)))/const).toInt()
+
                 fp.previous_img = null
                 mainPanel.repaint()
             }
@@ -121,7 +120,7 @@ class Window : JFrame() {
         }
         pack()
         fp.plane = Plane(-2.0, 1.0, -1.0, 1.0, mainPanel.width, mainPanel.height)
-        fp.pointColor = themes["lilac"]!!
+        fp.pointColor = themes["green"]!!
 
 //        fp.pointColor = {
 //            if (it == 1f) Color.BLACK else
@@ -208,11 +207,11 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
             mainPanel.repaint()
         }
 
-        val lilacTheme = JMenuItem("Сиреневая тема")
+        val lilacTheme = JMenuItem("Красно-синяя тема")
         theme.add(lilacTheme)
         lilacTheme.setMnemonic('С')
         lilacTheme.addActionListener { _: ActionEvent ->
-            fp.pointColor = themes["lilac"]!!
+            fp.pointColor = themes["red-blue"]!!
             fp.previous_img = null
             mainPanel.repaint()
         }
@@ -276,7 +275,92 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
 
     }
     private fun saveJPGFunc(){
+        val fileChooser = JFileChooser()
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
+        val ok = fileChooser.showSaveDialog(null)
+        var path: String? = fileChooser.selectedFile.toString()
+        if (path.isNullOrEmpty() ||
+            path == " " ||
+            path.length < 5
+            ) path = null
+        else if(path.last() == '\\') path+= "fractal.jpg"
+        else if (!path.endsWith(".jpg")) path += ".jpg"
+        if (ok==0) {
+            println(path)
+            var bufferedImage = BufferedImage(
+                fp.width + 10,
+                fp.height + 40,
+                BufferedImage.TYPE_INT_RGB
+            )
+            val g: Graphics = bufferedImage.createGraphics().also {
+                it.color = Color.WHITE
+            }
+            fp.previous_img?.let {
+                g.drawImage(
+                    it,
+                    10,
+                    0,
+                    null
+                )
+                //g.drawLine(0, 0, 0, bufferedImage.height)
 
+                fp.plane?.let { plane ->
+                    val epsY = Converter.yScr2Crt(0, plane) - Converter.yScr2Crt(1, plane)
+                    var step = (Converter.yScr2Crt(fp.height, plane) - Converter.yScr2Crt(0, plane))/8.0
+                    for (yS in 0..fp.height) {
+                        val y = Converter.yScr2Crt(yS,plane)
+                        var h = 5
+                        if (abs(y % step) < epsY){
+                            if (abs(y % (2*step)) < epsY){
+                                h += 5
+                            }
+                            g.drawLine(0, yS, h, yS)
+                        }
+                    }
+
+                    val string1 = "XMin = ${Converter.xScr2Crt(0, plane)}," +
+                            " XMax = ${Converter.xScr2Crt(fp.width, plane)}"
+                    val string2 = "YMin = ${Converter.yScr2Crt(0, plane)}," +
+                            " YMax = ${Converter.yScr2Crt(fp.height, plane)}"
+                    with(g.fontMetrics.getStringBounds(string1, g)) {
+                        g.drawString(
+                            string1,
+                            ((fp.width / 2) - width/2).toInt(),
+                            (bufferedImage.height - height).toInt()
+                        )
+                        g.drawString(
+                            string2,
+                            ((fp.width / 2) - width/2).toInt(),
+                            (bufferedImage.height ).toInt()
+                        )
+
+//                        g.drawLine(0,
+//                            (bufferedImage.height - 2*height).toInt(),
+//                            bufferedImage.width,
+//                            (bufferedImage.height - 2*height).toInt()
+//                        )
+
+                        val epsX = Converter.xScr2Crt(1, plane) - Converter.xScr2Crt(0, plane)
+                        step = (Converter.xScr2Crt(fp.width, plane) - Converter.xScr2Crt(0, plane))/8.0
+                        for (xS in 0..fp.width) {
+                            val x = Converter.xScr2Crt(xS,plane)
+                            var h = 5
+                            if (abs(x % step) < epsX){
+                                if (abs(x % (2*step)) < epsX){
+                                    h += 5
+                                }
+                                g.drawLine(xS,(bufferedImage.height - 2*height).toInt(),
+                                    xS, (bufferedImage.height - 2*height).toInt() - h)
+                            }
+                        }
+                    }
+                }
+            }
+
+            path?.let {
+                ImageIO.write(bufferedImage, "jpg", File("screen.jpg"))
+            }
+        }
     }
     private fun saveFunc(){
 
