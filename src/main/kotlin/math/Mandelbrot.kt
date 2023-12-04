@@ -2,7 +2,7 @@ package math
 
 object Mandelbrot : AlgebraicFractal {
     val r = 2.0
-    override var maxIterations: Int = 500
+    override var maxIterations: Int = 200
     override fun isInSet(z: Complex): Float {
         var i = 0
         val z1 = Complex()
