@@ -7,6 +7,9 @@ class Exponent {
     val C1: Double
     val C2: Double
     val T0: Double
+    companion object {
+        val FAKEE = Exponent(0.0, 0.0, 0.0)
+    }
 
     // e^(C1*(T0 + t) + C2)
     constructor(c1: Double, c2: Double, t0: Double) {
