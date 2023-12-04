@@ -322,6 +322,7 @@ object MovieMaker {
         printList(Xapprox.segmentT)
         printList(Yapprox.segmentT)
         //printList(segmentType)
+        fp.maxIteration = 500
         for (f in 0..frames) {
             val t = f / (fps.toDouble())
             // find segment where placed t
