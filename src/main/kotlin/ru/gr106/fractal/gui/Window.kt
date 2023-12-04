@@ -18,6 +18,8 @@ import kotlin.math.*
 
 class Window : JFrame() {
 
+
+    private val const = ln(15.0)
     private val mainPanel: DrawingPanel
     private val fp: FractalPainter
     var themes: Map<String, (Float) -> Color> = mapOf()
@@ -35,7 +37,7 @@ class Window : JFrame() {
             "green" to {
                 if (it == 1f) Color.BLACK else
                     Color(
-                        0.5f * (1 - cos(16f * it * it)).absoluteValue,
+                        0.5f * (1 - cos(16f * it* it)).absoluteValue,
                         sin(5f * it).absoluteValue,
                         log10(1f + 5 * it).absoluteValue
                     )
@@ -78,6 +80,10 @@ class Window : JFrame() {
         })
         mainPanel.addSelectedListener {rect ->
             fp.plane?.let {
+                val pxMin = it.xMin
+                val pxMax = it.xMax
+                val pyMin = it.yMin
+                val pyMax = it.yMax
                 val xMin = Converter.xScr2Crt(rect.x, it)
                 val yMax = Converter.yScr2Crt(rect.y, it)
                 val xMax = Converter.xScr2Crt(rect.x + rect.width, it)
@@ -86,7 +92,7 @@ class Window : JFrame() {
                 it.yMin = yMin
                 it.xMax = xMax
                 it.yMax = yMax
-
+                fp.maxIteration = (fp.maxIteration*ln((pxMax-pxMin)*(pyMax-pyMin)/((it.xMax-it.xMin)*(it.yMax-it.yMin)))/const).toInt()
                 fp.previous_img = null
                 mainPanel.repaint()
             }
@@ -115,14 +121,7 @@ class Window : JFrame() {
         }
         pack()
         fp.plane = Plane(-2.0, 1.0, -1.0, 1.0, mainPanel.width, mainPanel.height)
-        fp.pointColor = {
-            if (it == 1f) Color.BLACK else
-            Color(
-                0.5f*(1-cos(16f*it*it)).absoluteValue,
-                sin(5f*it).absoluteValue,
-                log10(1f + 5*it).absoluteValue
-            )
-        }
+        fp.pointColor = themes["lilac"]!!
 
 //        fp.pointColor = {
 //            if (it == 1f) Color.BLACK else
