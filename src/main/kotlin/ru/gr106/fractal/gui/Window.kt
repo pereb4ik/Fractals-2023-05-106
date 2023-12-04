@@ -286,10 +286,9 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
         val ok = fileChooser.showSaveDialog(null)
         var path: String? = fileChooser.selectedFile.toString()
         if (path.isNullOrEmpty() ||
-            path == " " ||
             path.length < 5
         ) path = null
-        else if(path.last() == '\\') path+= "\\fractal.jpg"
+        else if(!path.endsWith('\\')) path+= "\\fractal.jpg"
         else if (!path.endsWith(".jpg")) path += ".jpg"
         if (ok==0) {
             var bufferedImage = BufferedImage(

@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64fc321e-fd31-4862-89fb-6fba6a4b77ad" name="Changes" comment="">
+    <list default="true" id="64fc321e-fd31-4862-89fb-6fba6a4b77ad" name="Changes" comment="Сохранение в .jpg не финал">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screen.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/screen.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/Window.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/gr106/fractal/gui/Window.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +51,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "Rebasing master",
+    "git-widget-placeholder": "master",
     "last_opened_file_path": "E:/Прога/IdeaProjects/GraphicsPoly",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
@@ -169,7 +168,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701677095313</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Сохранение в .jpg не финал">
+      <option name="closed" value="true" />
+      <created>1701716654532</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1701716654532</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -181,6 +188,7 @@
     <MESSAGE value="Меню(исправлены некоторые ошибки)" />
     <MESSAGE value="Меню(добавлен пункт загрузки проекта)" />
     <MESSAGE value="Сохранение в .jpg часть 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Сохранение в .jpg часть 1" />
+    <MESSAGE value="Сохранение в .jpg не финал" />
+    <option name="LAST_COMMIT_MESSAGE" value="Сохранение в .jpg не финал" />
   </component>
 </project>
