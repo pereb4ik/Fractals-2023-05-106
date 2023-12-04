@@ -1,7 +1,7 @@
 package ru.gr106.fractal.gui
 
-import ru.smak.drawing.Converter
-import ru.smak.drawing.Plane
+import drawing.Converter
+import drawing.Plane
 import math.Mandelbrot
 import java.awt.Color
 import java.awt.Dimension
@@ -288,7 +288,7 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
         if (path.isNullOrEmpty() ||
             path == " " ||
             path.length < 5
-            ) path = null
+        ) path = null
         else if(path.last() == '\\') path+= "\\fractal.jpg"
         else if (!path.endsWith(".jpg")) path += ".jpg"
         if (ok==0) {
@@ -345,6 +345,27 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
 //                            (bufferedImage.height - 2*height).toInt()
 //                        )
 
+                        val epsX = Converter.xScr2Crt(1, plane) - Converter.xScr2Crt(0, plane)
+                        step = (Converter.xScr2Crt(fp.width, plane) - Converter.xScr2Crt(0, plane))/8.0
+                        for (xS in 0..fp.width) {
+                            val x = Converter.xScr2Crt(xS,plane)
+                            var h = 5
+                            if (abs(x % step) < epsX){
+                                if (abs(x % (2*step)) < epsX){
+                                    h += 5
+                                }
+                                g.drawLine(xS,(bufferedImage.height - 2*height).toInt(),
+                                    xS, (bufferedImage.height - 2*height).toInt() - h)
+                            }
+                        }
+                    }
+                }
+            }
+
+            path?.let {
+                ImageIO.write(bufferedImage, "jpg", File(it))
+            }
+        }
     }
 
     private fun saveFunc() {
