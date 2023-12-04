@@ -23,13 +23,15 @@ import kotlin.math.*
 
 class Window : JFrame() {
 
+
+    private val const = ln(15.0)
     private val mainPanel: DrawingPanel
     private val fp: FractalPainter
     var themes: Map<String, (Float) -> Color> = mapOf()
 
 
 
-    init{
+    init {
         fp = FractalPainter(Mandelbrot)
         val menuBar = createMenuBar()
         defaultCloseOperation = EXIT_ON_CLOSE
@@ -72,7 +74,7 @@ class Window : JFrame() {
             }
         )
 
-        mainPanel.addComponentListener(object : ComponentAdapter(){
+        mainPanel.addComponentListener(object : ComponentAdapter() {
             override fun componentResized(e: ComponentEvent?) {
                 fp.plane?.width = mainPanel.width
                 fp.plane?.height = mainPanel.height
@@ -81,8 +83,12 @@ class Window : JFrame() {
                 mainPanel.repaint()
             }
         })
-        mainPanel.addSelectedListener {rect ->
+        mainPanel.addSelectedListener { rect ->
             fp.plane?.let {
+                val pxMin = it.xMin
+                val pxMax = it.xMax
+                val pyMin = it.yMin
+                val pyMax = it.yMax
                 val xMin = Converter.xScr2Crt(rect.x, it)
                 val yMax = Converter.yScr2Crt(rect.y, it)
                 val xMax = Converter.xScr2Crt(rect.x + rect.width, it)
@@ -91,7 +97,7 @@ class Window : JFrame() {
                 it.yMin = yMin
                 it.xMax = xMax
                 it.yMax = yMax
-
+                fp.maxIteration = (fp.maxIteration*ln((pxMax-pxMin)*(pyMax-pyMin)/((it.xMax-it.xMin)*(it.yMax-it.yMin)))/const).toInt()
                 fp.previous_img = null
                 mainPanel.repaint()
             }
@@ -132,6 +138,7 @@ class Window : JFrame() {
 //                    (2*acos(it+ PI*(1-sin(it)))/PI).absoluteValue.toFloat(),
 //                )
 //        }
+        MovieMaker.fpp = fp
     }
 
 /*
@@ -232,12 +239,12 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
 
         val joulbert = JMenuItem("Отрисовать множество Жюльберта")
         joulbert.setMnemonic('Ж')
-        joulbert.addActionListener { _: ActionEvent -> joulbertFunc()}
+        joulbert.addActionListener { _: ActionEvent -> joulbertFunc() }
         observe.add(joulbert)
 
         val view = JMenuItem("Экскурсия")
         view.setMnemonic('Э')
-        view.addActionListener { _: ActionEvent -> viewFunc()}
+        view.addActionListener { _: ActionEvent -> viewFunc() }
         observe.add(view)
 
         /*
@@ -265,7 +272,6 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
     private fun loadFunc() {
 
     }
-
 
     private fun joulbertFunc() {
 
@@ -339,34 +345,14 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
 //                            (bufferedImage.height - 2*height).toInt()
 //                        )
 
-                        val epsX = Converter.xScr2Crt(1, plane) - Converter.xScr2Crt(0, plane)
-                        step = (Converter.xScr2Crt(fp.width, plane) - Converter.xScr2Crt(0, plane))/8.0
-                        for (xS in 0..fp.width) {
-                            val x = Converter.xScr2Crt(xS,plane)
-                            var h = 5
-                            if (abs(x % step) < epsX){
-                                if (abs(x % (2*step)) < epsX){
-                                    h += 5
-                                }
-                                g.drawLine(xS,(bufferedImage.height - 2*height).toInt(),
-                                    xS, (bufferedImage.height - 2*height).toInt() - h)
-                            }
-                        }
-                    }
-                }
-            }
-
-            path?.let {
-                ImageIO.write(bufferedImage, "jpg", File(it))
-            }
-        }
     }
-    private fun saveFunc(){
+
+    private fun saveFunc() {
 
     }
 
     private fun viewFunc() {
-
+        FractalTourMenu()
     }
 
     private fun undoFunc() {

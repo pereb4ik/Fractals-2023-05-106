@@ -3,8 +3,8 @@ package ru.gr106.fractal.gui
 import math.AlgebraicFractal
 import math.Complex
 import java.awt.Graphics
-import ru.smak.drawing.Converter
-import ru.smak.drawing.Plane
+import drawing.Converter
+import drawing.Plane
 import java.awt.Color
 import java.awt.Image
 import java.awt.image.BufferedImage
@@ -104,4 +104,10 @@ class FractalPainter (val fractal: AlgebraicFractal) : Painter{
 
     }
 
+    fun copy(): FractalPainter {
+        val fp = FractalPainter(fractal)
+        fp.plane = plane
+        fp.pointColor = pointColor
+        return fp
+    }
 }
