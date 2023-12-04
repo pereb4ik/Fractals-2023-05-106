@@ -286,7 +286,6 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
         else if(path.last() == '\\') path+= "\\fractal.jpg"
         else if (!path.endsWith(".jpg")) path += ".jpg"
         if (ok==0) {
-            println(path)
             var bufferedImage = BufferedImage(
                 fp.width + 10,
                 fp.height + 40,
