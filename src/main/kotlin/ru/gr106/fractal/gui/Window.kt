@@ -283,7 +283,7 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
             path == " " ||
             path.length < 5
             ) path = null
-        else if(path.last() == '\\') path+= "fractal.jpg"
+        else if(path.last() == '\\') path+= "\\fractal.jpg"
         else if (!path.endsWith(".jpg")) path += ".jpg"
         if (ok==0) {
             println(path)
@@ -358,7 +358,7 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
             }
 
             path?.let {
-                ImageIO.write(bufferedImage, "jpg", File("screen.jpg"))
+                ImageIO.write(bufferedImage, "jpg", File(it))
             }
         }
     }
