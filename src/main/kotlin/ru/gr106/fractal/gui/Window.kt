@@ -1,7 +1,7 @@
 package ru.gr106.fractal.gui
 
-import ru.smak.drawing.Converter
-import ru.smak.drawing.Plane
+import drawing.Converter
+import drawing.Plane
 import math.Mandelbrot
 import java.awt.Color
 import java.awt.Dimension
@@ -26,7 +26,7 @@ class Window : JFrame() {
 
 
 
-    init{
+    init {
         fp = FractalPainter(Mandelbrot)
         val menuBar = createMenuBar()
         defaultCloseOperation = EXIT_ON_CLOSE
@@ -69,7 +69,7 @@ class Window : JFrame() {
             }
         )
 
-        mainPanel.addComponentListener(object : ComponentAdapter(){
+        mainPanel.addComponentListener(object : ComponentAdapter() {
             override fun componentResized(e: ComponentEvent?) {
                 fp.plane?.width = mainPanel.width
                 fp.plane?.height = mainPanel.height
@@ -78,7 +78,7 @@ class Window : JFrame() {
                 mainPanel.repaint()
             }
         })
-        mainPanel.addSelectedListener {rect ->
+        mainPanel.addSelectedListener { rect ->
             fp.plane?.let {
                 val pxMin = it.xMin
                 val pxMax = it.xMax
@@ -133,6 +133,7 @@ class Window : JFrame() {
 //                    (2*acos(it+ PI*(1-sin(it)))/PI).absoluteValue.toFloat(),
 //                )
 //        }
+        MovieMaker.fpp = fp
     }
 
 /*
@@ -233,12 +234,12 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
 
         val joulbert = JMenuItem("Отрисовать множество Жюльберта")
         joulbert.setMnemonic('Ж')
-        joulbert.addActionListener { _: ActionEvent -> joulbertFunc()}
+        joulbert.addActionListener { _: ActionEvent -> joulbertFunc() }
         observe.add(joulbert)
 
         val view = JMenuItem("Экскурсия")
         view.setMnemonic('Э')
-        view.addActionListener { _: ActionEvent -> viewFunc()}
+        view.addActionListener { _: ActionEvent -> viewFunc() }
         observe.add(view)
 
         /*
@@ -267,7 +268,6 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
 
     }
 
-
     private fun joulbertFunc() {
 
     }
@@ -275,15 +275,17 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
     private fun redoFunc() {
 
     }
-    private fun saveJPGFunc(){
+
+    private fun saveJPGFunc() {
 
     }
-    private fun saveFunc(){
+
+    private fun saveFunc() {
 
     }
 
     private fun viewFunc() {
-
+        FractalTourMenu()
     }
 
     private fun undoFunc() {
