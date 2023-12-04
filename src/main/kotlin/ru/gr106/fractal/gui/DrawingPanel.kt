@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import java.awt.event.MouseMotionAdapter
 import javax.swing.JPanel
+import javax.swing.SwingUtilities
 
 class DrawingPanel(val p:FractalPainter) : JPanel() {
     private var rect = SelectionRect()
@@ -50,7 +51,7 @@ class DrawingPanel(val p:FractalPainter) : JPanel() {
             }
 
             override fun mouseReleased(e: MouseEvent?) {
-                if (e?.button == MouseEvent.BUTTON3) {
+                if (SwingUtilities.isRightMouseButton(e)) {
                     if (e != null) {
                         startX = e.x
                     }
@@ -58,7 +59,7 @@ class DrawingPanel(val p:FractalPainter) : JPanel() {
                         startY = e.y
                     }
                 }
-                if (e?.button == MouseEvent.BUTTON1) {
+                if (SwingUtilities.isLeftMouseButton(e)) {
                     e?.let {
                         if (rect.isCreated) drawRect()
                         rect.addPoint(it.x, it.y)
@@ -73,7 +74,7 @@ class DrawingPanel(val p:FractalPainter) : JPanel() {
         this.addMouseMotionListener(object : MouseMotionAdapter(){
 
             override fun mouseDragged(e: MouseEvent?) {
-                if (e?.button == MouseEvent.BUTTON3) {
+                if (SwingUtilities.isRightMouseButton(e)) {
                     var d = e?.x?.minus(startX)
                     var step = 10
 
@@ -111,7 +112,7 @@ class DrawingPanel(val p:FractalPainter) : JPanel() {
                     p.paint(this@DrawingPanel.graphics)
 
                 }
-                if (e?.button == MouseEvent.BUTTON1) {
+                if (SwingUtilities.isLeftMouseButton(e)) {
                     e?.let {
                         if (rect.isCreated)
                             drawRect()

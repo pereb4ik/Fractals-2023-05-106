@@ -23,7 +23,9 @@ class FractalPainter (val fractal: AlgebraicFractal) : Painter{
     override val height: Int
         get() = plane?.height?:0
     var pointColor: (Float) -> Color = {if (it < 1f) Color.WHITE else Color.BLACK }
-
+    var maxIteration: Int
+        get() = fractal.maxIterations
+        set(value) { fractal.maxIterations = value }
 
     fun fullPaint(img:BufferedImage,rx:Int,ry:Int) : BufferedImage{
 
