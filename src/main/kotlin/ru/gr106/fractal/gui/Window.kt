@@ -4,16 +4,26 @@ import ru.smak.drawing.Converter
 import ru.smak.drawing.Plane
 import math.Mandelbrot
 import java.awt.Color
+import java.awt.Composite
 import java.awt.Dimension
+import java.awt.Graphics
 import java.awt.event.ActionEvent
 import java.awt.event.ComponentAdapter
 import java.awt.event.ComponentEvent
+import java.awt.image.BufferedImage
+import java.awt.image.ImageObserver
+import java.io.File
+import java.io.FilePermission
+import java.io.FilenameFilter
+import javax.imageio.ImageIO
 import javax.swing.GroupLayout
 import javax.swing.GroupLayout.PREFERRED_SIZE
+import javax.swing.JFileChooser
 import javax.swing.JFrame
 import javax.swing.JMenu
 import javax.swing.JMenuBar
 import javax.swing.JMenuItem
+import javax.swing.filechooser.FileNameExtensionFilter
 import kotlin.math.*
 
 class Window : JFrame() {
@@ -115,14 +125,7 @@ class Window : JFrame() {
         }
         pack()
         fp.plane = Plane(-2.0, 1.0, -1.0, 1.0, mainPanel.width, mainPanel.height)
-        fp.pointColor = {
-            if (it == 1f) Color.BLACK else
-            Color(
-                0.5f*(1-cos(16f*it*it)).absoluteValue,
-                sin(5f*it).absoluteValue,
-                log10(1f + 5*it).absoluteValue
-            )
-        }
+        fp.pointColor = themes["green"]!!
 
 //        fp.pointColor = {
 //            if (it == 1f) Color.BLACK else
@@ -277,7 +280,33 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
 
     }
     private fun saveJPGFunc(){
+        val fileChooser = JFileChooser()
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
+        val ok = fileChooser.showSaveDialog(null)
+        val path: String? = fileChooser.selectedFile.toString()
 
+        if (ok==0) {
+            var bufferedImage = BufferedImage(
+                fp.width + 10,
+                fp.height + 10,
+                BufferedImage.TYPE_INT_RGB
+            )
+            val g: Graphics = bufferedImage.createGraphics().also {
+                it.color = Color.RED
+            }
+            fp.previous_img?.let {
+                g.drawImage(
+                    it,
+                    0,
+                    10,
+                    null
+                )
+
+                g.fillOval(0,0, 50, 50)
+            }
+            ImageIO.write(bufferedImage, "jpg", File("screen.jpg"))
+
+        }
     }
     private fun saveFunc(){
 
