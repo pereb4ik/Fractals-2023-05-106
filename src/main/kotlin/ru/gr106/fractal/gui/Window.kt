@@ -2,6 +2,8 @@ package ru.gr106.fractal.gui
 
 import drawing.Converter
 import drawing.Plane
+import math.AlgebraicFractal
+import math.Julia
 import math.Mandelbrot
 import ru.gr106.fractal.main
 import java.awt.Color
@@ -19,7 +21,8 @@ import javax.swing.*
 import javax.swing.GroupLayout.PREFERRED_SIZE
 import kotlin.math.*
 
-class Window : JFrame() {
+class Window(f: AlgebraicFractal) : JFrame() {
+    private val af = f
     private val mainPanel: DrawingPanel
     private val fp: FractalPainter
     var themes: Map<String, (Float) -> Color> = mapOf()
@@ -35,9 +38,12 @@ class Window : JFrame() {
 
 
     init {
-        fp = FractalPainter(Mandelbrot)
+        fp = FractalPainter(af)
         val menuBar = createMenuBar()
-        defaultCloseOperation = EXIT_ON_CLOSE
+        if(af is Mandelbrot)
+            defaultCloseOperation = EXIT_ON_CLOSE
+        else
+            defaultCloseOperation = DISPOSE_ON_CLOSE
         minimumSize = Dimension(600, 550)
         mainPanel = DrawingPanel(fp)
         cancelAction = Stack<Map<Pair<Double, Double>, Pair<Double, Double>>>()
@@ -150,26 +156,94 @@ class Window : JFrame() {
             }
         }
         mainPanel.background = Color.WHITE
-        layout = GroupLayout(contentPane).apply {
-            setVerticalGroup(
-                createSequentialGroup()
-                    .addComponent(menuBar, PREFERRED_SIZE, PREFERRED_SIZE, PREFERRED_SIZE)
-                    .addGap(4)
-                    .addComponent(mainPanel)
-                    .addGap(8)
 
-            )
-            setHorizontalGroup(
-                createParallelGroup()
-                    .addComponent(menuBar)
-                    .addGroup(
-                        createSequentialGroup()
-                            .addGap(8)
-                            .addComponent(mainPanel)
-                            .addGap(8)
-                    )
-                    .addGap(4)
-            )
+        if (af is Mandelbrot)
+            layout = GroupLayout(contentPane).apply {
+                setVerticalGroup(
+                    createSequentialGroup()
+                        .addComponent(menuBar, PREFERRED_SIZE, PREFERRED_SIZE, PREFERRED_SIZE)
+                        .addGap(4)
+                        .addComponent(mainPanel)
+                        .addGap(8)
+
+                )
+                setHorizontalGroup(
+                    createParallelGroup()
+                        .addComponent(menuBar)
+                        .addGroup(
+                            createSequentialGroup()
+                                .addGap(8)
+                                .addComponent(mainPanel)
+                                .addGap(8)
+                        )
+                        .addGap(4)
+                )
+            }
+        else {
+            val lblXCord = JLabel("X: ")
+            val lblYCord = JLabel("Y: ")
+            val mdlXCord = SpinnerNumberModel((af as Julia).x, null, null, 0.00001)
+            val mdlYCord = SpinnerNumberModel((af as Julia).y, null, null, 0.00001)
+            val spnXCord = JSpinner(mdlXCord)
+            val spnYCord = JSpinner(mdlYCord)
+
+            mdlXCord.addChangeListener{
+                (af as Julia).x = mdlXCord.value as Double
+                fp.previous_img = null
+                mainPanel.repaint()
+            }
+            mdlYCord.addChangeListener{
+                (af as Julia).y = mdlYCord.value as Double
+                fp.previous_img = null
+                mainPanel.repaint()
+            }
+
+            spnXCord.setEditor(JSpinner.NumberEditor(spnXCord, "0.00000"));
+            spnYCord.setEditor(JSpinner.NumberEditor(spnYCord, "0.00000"));
+
+            layout = GroupLayout(contentPane).apply {
+                setVerticalGroup(
+                    createSequentialGroup()
+                        .addComponent(menuBar, PREFERRED_SIZE, PREFERRED_SIZE, PREFERRED_SIZE)
+                        .addGap(4)
+                        .addComponent(mainPanel)
+                        .addGap(4)
+                        .addGroup(
+                            createParallelGroup()
+                                .addComponent(lblXCord)
+                                .addComponent(spnXCord, PREFERRED_SIZE, PREFERRED_SIZE, PREFERRED_SIZE)
+                                .addComponent(lblYCord)
+                                .addComponent(spnYCord, PREFERRED_SIZE, PREFERRED_SIZE, PREFERRED_SIZE)
+                        )
+                        .addGap(8)
+
+
+                )
+                setHorizontalGroup(
+                    createParallelGroup()
+                        .addComponent(menuBar)
+                        .addGroup(
+                            createSequentialGroup()
+                                .addGap(8)
+                                .addComponent(mainPanel)
+                                .addGap(8)
+                        )
+                        .addGroup(
+                            createSequentialGroup()
+                                .addGap(8)
+                                .addComponent(lblXCord)
+                                .addGap(4)
+                                .addComponent(spnXCord)
+                                .addGap(4)
+                                .addComponent(lblYCord)
+                                .addGap(4)
+                                .addComponent(spnYCord)
+                                .addGap(8)
+                        )
+                        .addGap(4)
+                )
+            }
+
         }
         pack()
         fp.plane = Plane(-2.0, 1.0, -1.0, 1.0, mainPanel.width, mainPanel.height)
@@ -254,10 +328,12 @@ class Window : JFrame() {
         menuBar.add(observe)
         observe.addActionListener { _: ActionEvent -> joulbertFunc() }
 
-        val joulbert = JMenuItem("Отрисовать множество Жюльберта")
-        joulbert.setMnemonic('Ж')
-        joulbert.addActionListener { _: ActionEvent -> joulbertFunc() }
-        observe.add(joulbert)
+        if(af !is Julia) {
+            val joulbert = JMenuItem("Отрисовать множество Жюльберта")
+            joulbert.setMnemonic('Ж')
+            joulbert.addActionListener { _: ActionEvent -> joulbertFunc() }
+            observe.add(joulbert)
+        }
 
         val view = JMenuItem("Экскурсия")
         view.setMnemonic('Э')
@@ -286,7 +362,9 @@ class Window : JFrame() {
     }
 
     private fun joulbertFunc() {
-
+        Window(Julia()).apply { isVisible = true
+            title = "Множество Жюлиа"
+        }
     }
 
     private fun redoFunc() {
