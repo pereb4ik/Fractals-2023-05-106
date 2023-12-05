@@ -284,13 +284,14 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
         val fileChooser = JFileChooser()
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
         val ok = fileChooser.showSaveDialog(null)
-        var path: String? = fileChooser.selectedFile.toString()
-        if (path.isNullOrEmpty() ||
-            path.length < 5
-        ) path = null
-        else if(!path.endsWith('\\')) path+= "\\fractal.jpg"
-        else if (!path.endsWith(".jpg")) path += ".jpg"
         if (ok==0) {
+            var path: String? = fileChooser.selectedFile.toString()
+            if (path.isNullOrEmpty() ||
+                path.length < 5
+            ) path = null
+            else if (!path.endsWith('\\')) path += "\\fractal.jpg"
+            else if (!path.endsWith(".jpg")) path += ".jpg"
+
             var bufferedImage = BufferedImage(
                 fp.width + 10,
                 fp.height + 40,
@@ -310,12 +311,12 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
 
                 fp.plane?.let { plane ->
                     val epsY = Converter.yScr2Crt(0, plane) - Converter.yScr2Crt(1, plane)
-                    var step = (Converter.yScr2Crt(fp.height, plane) - Converter.yScr2Crt(0, plane))/8.0
+                    var step = (Converter.yScr2Crt(fp.height, plane) - Converter.yScr2Crt(0, plane)) / 8.0
                     for (yS in 0..fp.height) {
-                        val y = Converter.yScr2Crt(yS,plane)
+                        val y = Converter.yScr2Crt(yS, plane)
                         var h = 5
-                        if (abs(y % step) < epsY){
-                            if (abs(y % (2*step)) < epsY){
+                        if (abs(y % step) < epsY) {
+                            if (abs(y % (2 * step)) < epsY) {
                                 h += 5
                             }
                             g.drawLine(0, yS, h, yS)
@@ -329,13 +330,13 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
                     with(g.fontMetrics.getStringBounds(string1, g)) {
                         g.drawString(
                             string1,
-                            ((fp.width / 2) - width/2).toInt(),
+                            ((fp.width / 2) - width / 2).toInt(),
                             (bufferedImage.height - height).toInt()
                         )
                         g.drawString(
                             string2,
-                            ((fp.width / 2) - width/2).toInt(),
-                            (bufferedImage.height ).toInt()
+                            ((fp.width / 2) - width / 2).toInt(),
+                            (bufferedImage.height).toInt()
                         )
 
 //                        g.drawLine(0,
@@ -345,16 +346,18 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
 //                        )
 
                         val epsX = Converter.xScr2Crt(1, plane) - Converter.xScr2Crt(0, plane)
-                        step = (Converter.xScr2Crt(fp.width, plane) - Converter.xScr2Crt(0, plane))/8.0
+                        step = (Converter.xScr2Crt(fp.width, plane) - Converter.xScr2Crt(0, plane)) / 8.0
                         for (xS in 0..fp.width) {
-                            val x = Converter.xScr2Crt(xS,plane)
+                            val x = Converter.xScr2Crt(xS, plane)
                             var h = 5
-                            if (abs(x % step) < epsX){
-                                if (abs(x % (2*step)) < epsX){
+                            if (abs(x % step) < epsX) {
+                                if (abs(x % (2 * step)) < epsX) {
                                     h += 5
                                 }
-                                g.drawLine(xS,(bufferedImage.height - 2*height).toInt(),
-                                    xS, (bufferedImage.height - 2*height).toInt() - h)
+                                g.drawLine(
+                                    xS, (bufferedImage.height - 2 * height).toInt(),
+                                    xS, (bufferedImage.height - 2 * height).toInt() - h
+                                )
                             }
                         }
                     }
