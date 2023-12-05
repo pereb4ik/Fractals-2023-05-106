@@ -458,13 +458,19 @@ class Window(f: AlgebraicFractal) : JFrame() {
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
         val ok = fileChooser.showSaveDialog(null)
         if (ok==0) {
-            val path: String? = fileChooser.selectedFile.toString()
-            fp.plane?.let { p ->
-                val xMin = p.xMin.toString()+" "
-                val xMax = p.xMax.toString()+" "
-                val yMin = p.yMin.toString()+" "
-                val yMax = p.yMax.toString()+" "
-                File(path).writeText(xMin+xMax+yMin+yMax+themes.filter { fp.pointColor == it.value }.keys.first())
+            var path: String? = fileChooser.selectedFile.toString()
+            if(path!!.length >=4){
+                if(!path.toString().slice((path.length-4)..<(path.length)).equals(".txt")){
+                    if(path[path.length-1] == '.') path += "txt"
+                    else path += ".txt"
+                }
+                fp.plane?.let { p ->
+                    val xMin = p.xMin.toString()+" "
+                    val xMax = p.xMax.toString()+" "
+                    val yMin = p.yMin.toString()+" "
+                    val yMax = p.yMax.toString()+" "
+                    File(path).writeText(xMin+xMax+yMin+yMax+themes.filter { fp.pointColor == it.value }.keys.first())
+                }
             }
         }
     }
