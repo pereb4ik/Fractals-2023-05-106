@@ -11,6 +11,7 @@ import java.awt.event.ComponentAdapter
 import java.awt.event.ComponentEvent
 import java.awt.image.BufferedImage
 import java.io.File
+import java.util.Scanner
 import javax.imageio.ImageIO
 import javax.swing.GroupLayout
 import javax.swing.GroupLayout.PREFERRED_SIZE
@@ -22,9 +23,6 @@ import javax.swing.JMenuItem
 import kotlin.math.*
 
 class Window : JFrame() {
-
-
-    private val const = ln(15.0)
     private val mainPanel: DrawingPanel
     private val fp: FractalPainter
     var themes: Map<String, (Float) -> Color> = mapOf()
@@ -85,10 +83,6 @@ class Window : JFrame() {
         })
         mainPanel.addSelectedListener { rect ->
             fp.plane?.let {
-                val pxMin = it.xMin
-                val pxMax = it.xMax
-                val pyMin = it.yMin
-                val pyMax = it.yMax
                 val xMin = Converter.xScr2Crt(rect.x, it)
                 val yMax = Converter.yScr2Crt(rect.y, it)
                 val xMax = Converter.xScr2Crt(rect.x + rect.width, it)
@@ -97,7 +91,6 @@ class Window : JFrame() {
                 it.yMin = yMin
                 it.xMax = xMax
                 it.yMax = yMax
-                fp.maxIteration = (fp.maxIteration*ln((pxMax-pxMin)*(pyMax-pyMin)/((it.xMax-it.xMin)*(it.yMax-it.yMin)))/const).toInt()
                 fp.previous_img = null
                 mainPanel.repaint()
             }
@@ -127,40 +120,8 @@ class Window : JFrame() {
         pack()
         fp.plane = Plane(-2.0, 1.0, -1.0, 1.0, mainPanel.width, mainPanel.height)
         fp.pointColor = themes["green"]!!
-
-//        fp.pointColor = {
-//            if (it == 1f) Color.BLACK else
-//                Color(
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//                    (2*asin(it + PI*(tan(it)))/PI).absoluteValue.toFloat(),
-//                    (2* atan(it + PI*(1-cos(it))) / PI).absoluteValue.toFloat(),
-//                    (2*acos(it+ PI*(1-sin(it)))/PI).absoluteValue.toFloat(),
-//                )
-//        }
         MovieMaker.fpp = fp
     }
-
-/*
-удачные темы
-
-красная:
-cos(it+PI*(0.5+sin(it))).absoluteValue.toFloat(),
-cos(it + PI*(0.5+cos(it))).absoluteValue.toFloat(),
-(0.1*cos(it)).absoluteValue.toFloat(),
-
-сиреневенькое
-cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
-                    (2*atan(it + PI*(tan(it)))/ PI).absoluteValue.toFloat(),
-                    cos(it+PI*(0.5+sin(it))).absoluteValue.toFloat(),
-
-желто-зеленый
-(2*asin(it + PI*(sin(it)))/PI).absoluteValue.toFloat(),
-                    (2*atan(it + PI*(tan(it)))/ PI).absoluteValue.toFloat(),
-                    (2*acos(it+ PI*(cos(it)))/PI).absoluteValue.toFloat(),
- */
-
-
     private fun createMenuBar(): JMenuBar {
         val menuBar = JMenuBar()
         this.add(menuBar)
@@ -246,31 +207,26 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
         view.setMnemonic('Э')
         view.addActionListener { _: ActionEvent -> viewFunc() }
         observe.add(view)
-
-        /*
-        val joulbert = JMenuItem("Жюльберт")
-
-        joulbert.setMnemonic('Ж')
-        menuBar.add(joulbert)
-        joulbert.addActionListener { _: ActionEvent -> joulbertFunc() }
-        */
-        /*
-        val joulbertBtn = JButton("Отрисовать множество Жюльберта")
-        joulbertBtn.addActionListener { joulbertFunc() }
-        this.add(joulbertBtn)
-
-        val viewBtn = JButton("Экскурсия по фракталу")
-        viewBtn.addActionListener { viewFunc() }
-        viewBtn.alignmentX = RIGHT_ALIGNMENT
-        //viewBtn.alignmentY = RIGHT_ALIGNMENT
-        this.add(viewBtn)
-        * */
-
         return menuBar
     }
 
     private fun loadFunc() {
-
+        val fileChooser = JFileChooser()
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES)
+        val ok = fileChooser.showOpenDialog(null)
+        if (ok==0) {
+            val path: String? = fileChooser.selectedFile.toString()
+            val parts = Scanner(File(path)).nextLine().split(" ")
+            fp.plane?.let { p ->
+                p.xMin = parts[0].toDouble()
+                p.xMax = parts[1].toDouble()
+                p.yMin = parts[2].toDouble()
+                p.yMax = parts[3].toDouble()
+                fp.pointColor = themes[parts[4]]!!
+                fp.previous_img= null
+                mainPanel.repaint()
+            }
+        }
     }
 
     private fun joulbertFunc() {
@@ -337,13 +293,6 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
                             ((fp.width / 2) - width/2).toInt(),
                             (bufferedImage.height ).toInt()
                         )
-
-//                        g.drawLine(0,
-//                            (bufferedImage.height - 2*height).toInt(),
-//                            bufferedImage.width,
-//                            (bufferedImage.height - 2*height).toInt()
-//                        )
-
                         val epsX = Converter.xScr2Crt(1, plane) - Converter.xScr2Crt(0, plane)
                         step = (Converter.xScr2Crt(fp.width, plane) - Converter.xScr2Crt(0, plane))/8.0
                         for (xS in 0..fp.width) {
@@ -368,15 +317,27 @@ cos(it + PI*(0.5 + it)).absoluteValue.toFloat(),
     }
 
     private fun saveFunc() {
-
+        val fileChooser = JFileChooser()
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
+        val ok = fileChooser.showSaveDialog(null)
+        if (ok==0) {
+            val path: String? = fileChooser.selectedFile.toString()
+            fp.plane?.let { p ->
+                val xMin = p.xMin.toString()+" "
+                val xMax = p.xMax.toString()+" "
+                val yMin = p.yMin.toString()+" "
+                val yMax = p.yMax.toString()+" "
+                File(path).writeText(xMin+xMax+yMin+yMax+themes.filter { fp.pointColor == it.value }.keys.first())
+            }
+        }
     }
 
-    private fun viewFunc() {
-        FractalTourMenu()
-    }
+private fun viewFunc() {
+    FractalTourMenu()
+}
 
-    private fun undoFunc() {
+private fun undoFunc() {
 
-    }
+}
 
 }
