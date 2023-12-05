@@ -3,30 +3,35 @@ package ru.gr106.fractal.gui
 import drawing.Converter
 import drawing.Plane
 import math.Mandelbrot
+import ru.gr106.fractal.main
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.Graphics
 import java.awt.event.ActionEvent
 import java.awt.event.ComponentAdapter
 import java.awt.event.ComponentEvent
+import java.awt.event.KeyEvent
 import java.awt.image.BufferedImage
 import java.io.File
-import java.util.Scanner
+import java.util.*
 import javax.imageio.ImageIO
-import javax.swing.GroupLayout
+import javax.swing.*
 import javax.swing.GroupLayout.PREFERRED_SIZE
-import javax.swing.JFileChooser
-import javax.swing.JFrame
-import javax.swing.JMenu
-import javax.swing.JMenuBar
-import javax.swing.JMenuItem
 import kotlin.math.*
 
 class Window : JFrame() {
     private val mainPanel: DrawingPanel
     private val fp: FractalPainter
     var themes: Map<String, (Float) -> Color> = mapOf()
-
+    private var cancelAction: Stack<Map<Pair<Double, Double>, Pair<Double, Double>>>
+    private var newWidth: Int = 0
+    private var newHeight: Int = 0
+    private var dx: Double = 0.0
+    private var dy: Double = 0.0
+    private val yMin = -1.0
+    private val yMax = 1.0
+    private var xMin = -2.0
+    private val xMax = 1.0
 
 
     init {
@@ -35,6 +40,7 @@ class Window : JFrame() {
         defaultCloseOperation = EXIT_ON_CLOSE
         minimumSize = Dimension(600, 550)
         mainPanel = DrawingPanel(fp)
+        cancelAction = Stack<Map<Pair<Double, Double>, Pair<Double, Double>>>()
 
         themes = mapOf(
             "green" to {
@@ -76,6 +82,49 @@ class Window : JFrame() {
             override fun componentResized(e: ComponentEvent?) {
                 fp.plane?.width = mainPanel.width
                 fp.plane?.height = mainPanel.height
+                newHeight = mainPanel.height
+                newWidth = mainPanel.width
+
+                val OXlength = xMax - xMin
+                val OYlength = yMax - yMin
+
+                var newXMax = xMax
+                var newXMin = xMin
+                var newYMax = yMax
+                var newYMin = yMin
+
+                val relationOXY = OXlength * 1.0 / OYlength
+
+                val relationWidthHeight = newWidth * 1.0 / newHeight
+
+                if (Math.abs(relationOXY - relationWidthHeight) > 1E-5){
+                    if (relationOXY < relationWidthHeight){
+                        val equFactor = newHeight * 1.0 / OYlength
+                        val proportion = OXlength * newWidth / (equFactor * OXlength)
+                        dx = proportion - OXlength
+                        newXMin -= dx
+                        newXMax += dx
+                    }
+                    if (relationOXY > relationWidthHeight){
+                        val equFactor = newWidth * 1.0 / OXlength
+                        val proportion = OYlength * newHeight / (equFactor * OYlength)
+                        dy = proportion - OYlength
+                        newYMin -= dy
+                        newYMax += dy
+                    }
+                }
+                val xPair = Pair(newXMin, newXMax)
+                val yPair = Pair(newYMin, newYMax)
+                val mapOfCoord = mutableMapOf<Pair<Double, Double>, Pair<Double, Double>>()
+                mapOfCoord.put(xPair, yPair)
+                cancelAction.push(mapOfCoord)
+                fp.plane?.xMax = newXMax
+                fp.plane?.xMin = newXMin
+                fp.plane?.yMin = newYMin
+                fp.plane?.yMax = newYMax
+                fp.plane?.height = mainPanel.height
+                fp.plane?.width = mainPanel.width
+
 
                 fp.previous_img = null
                 mainPanel.repaint()
@@ -91,6 +140,11 @@ class Window : JFrame() {
                 it.yMin = yMin
                 it.xMax = xMax
                 it.yMax = yMax
+                val mapOfCoord = mutableMapOf<Pair<Double, Double>, Pair<Double, Double>>()
+                val pairX = Pair(xMin, xMax)
+                val pairY = Pair(yMin, yMax)
+                mapOfCoord.put(pairX, pairY)
+                cancelAction.push(mapOfCoord)
                 fp.previous_img = null
                 mainPanel.repaint()
             }
@@ -148,6 +202,8 @@ class Window : JFrame() {
         val undo = JMenuItem("Назад")
         edit.add(undo)
         undo.addActionListener { _: ActionEvent -> undoFunc() }
+        undo.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_Z, toolkit.menuShortcutKeyMaskEx)
+
 
         val redo = JMenuItem("Вперёд")
         edit.add(redo)
@@ -335,12 +391,28 @@ class Window : JFrame() {
         }
     }
 
-private fun viewFunc() {
-    FractalTourMenu()
-}
+    private fun viewFunc() {
+        FractalTourMenu()
+    }
 
-private fun undoFunc() {
-
-}
+    private fun undoFunc() {
+        if (cancelAction.size != 1) {
+            cancelAction.pop()
+            var afterRemoval = mutableMapOf<Pair<Double, Double>, Pair<Double, Double>>()
+            afterRemoval = cancelAction.peek() as MutableMap<Pair<Double, Double>, Pair<Double, Double>>
+            val xPair = afterRemoval.keys.toList()
+            val yPair = afterRemoval.values.toList()
+            val xMin = xPair[0].first
+            val xMax = xPair[0].second
+            val yMin = yPair[0].first
+            val yMax = yPair[0].second
+            fp.plane?.xMax = xMax
+            fp.plane?.xMin = xMin
+            fp.plane?.yMax = yMax
+            fp.plane?.yMin = yMin
+        }
+        fp.previous_img = null
+        mainPanel.repaint()
+    }
 
 }
