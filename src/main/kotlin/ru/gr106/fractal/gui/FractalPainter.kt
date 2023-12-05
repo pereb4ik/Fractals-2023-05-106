@@ -85,8 +85,10 @@ class FractalPainter (val fractal: AlgebraicFractal) : Painter{
     override fun paint(g: Graphics) {
         var img = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
         val x = 6/((plane?.xMax!! - plane?.xMin!!)*(plane?.yMax!! - plane?.yMin!!))+1
-        if(x< 2.8) maxIteration = 300
+        if(x< 5) maxIteration = 300
+        else if(x>3000000) maxIteration = 1000*(ln(x)-(1/(-x))).toInt()
         else maxIteration = 300*(ln(x)-(1/(-x))).toInt()
+
         if (previous_img != null ) {
             img = fullPaint(img,dx,dy)
             img.graphics.drawImage(previous_img,dx,dy,null)
