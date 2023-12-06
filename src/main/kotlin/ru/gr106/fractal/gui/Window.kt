@@ -302,7 +302,7 @@ class Window(f: AlgebraicFractal) : JFrame() {
 
         val turnOff = JMenuItem("Выключить")
         DynamicIteration.add(turnOff)
-        turnOn.addActionListener{_: ActionEvent ->
+        turnOff.addActionListener{_: ActionEvent ->
             DYTurnOff()
             fp.previous_img = null
             mainPanel.repaint()
