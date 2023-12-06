@@ -108,10 +108,10 @@ class ListModelPlane(val keyFrames: MutableList<Plane>, val setT: (Double) -> Un
         }
         // http://www.java2s.com/Code/Java/Swing-JFC/AnexampleofJListwithaDefaultListModel.htm
         val pane = JScrollPane(list)
-        val addButton = JButton("Add frame")
-        val removeButton = JButton("Remove frame")
-        val burnButton = JButton("Burn")
-        val timeLabel = JLabel("Duration(sec.):")
+        val addButton = JButton("Добавить кадр")
+        val removeButton = JButton("Удалить кадр")
+        val burnButton = JButton("Создать")
+        val timeLabel = JLabel("Длительность(сек.):")
 
         addButton.addActionListener {
             addP()

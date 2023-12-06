@@ -340,14 +340,14 @@ object MovieMaker {
             val buff = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
             fp.previous_img = null
             fp.paint(buff.graphics)
-            println("encode frame:F${f}")
+            println("формирование кадра:F${f}")
             encoder.encodeImage(buff)
         }
 
         encoder.finish()
         NIOUtils.closeQuietly(out)
         val mark2 = timeSource.markNow()
-        println("render time: " + (mark2 - mark1))
+        println("Время рендера: " + (mark2 - mark1))
         ////// RESET
         segmentType.clear()
         frameInd.clear()
