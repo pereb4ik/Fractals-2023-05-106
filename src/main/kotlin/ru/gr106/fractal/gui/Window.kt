@@ -15,6 +15,7 @@ import java.awt.event.ComponentEvent
 import java.awt.event.KeyEvent
 import java.awt.image.BufferedImage
 import java.io.File
+import java.time.YearMonth
 import java.util.*
 import javax.imageio.ImageIO
 import javax.swing.*
@@ -31,10 +32,10 @@ class Window(f: AlgebraicFractal) : JFrame() {
     private var newHeight: Int = 0
     private var dx: Double = 0.0
     private var dy: Double = 0.0
-    private val yMin = -1.0
-    private val yMax = 1.0
+    private var yMin = -1.0
+    private var yMax = 1.0
     private var xMin = -2.0
-    private val xMax = 1.0
+    private var xMax = 1.0
 
 
     init {
@@ -138,17 +139,21 @@ class Window(f: AlgebraicFractal) : JFrame() {
         })
         mainPanel.addSelectedListener { rect ->
             fp.plane?.let {
-                val xMin = Converter.xScr2Crt(rect.x, it)
-                val yMax = Converter.yScr2Crt(rect.y, it)
-                val xMax = Converter.xScr2Crt(rect.x + rect.width, it)
-                val yMin = Converter.yScr2Crt(rect.y + rect.height, it)
-                it.xMin = xMin
-                it.yMin = yMin
-                it.xMax = xMax
-                it.yMax = yMax
+                val _xMin = Converter.xScr2Crt(rect.x, it)
+                val _yMax = Converter.yScr2Crt(rect.y, it)
+                val _xMax = Converter.xScr2Crt(rect.x + rect.width, it)
+                val _yMin = Converter.yScr2Crt(rect.y + rect.height, it)
+                it.xMin = _xMin
+                it.yMin = _yMin
+                it.xMax = _xMax
+                it.yMax = _yMax
+                xMin = _xMin
+                xMax = _xMax
+                yMin =  _yMin
+                yMax = _yMax
                 val mapOfCoord = mutableMapOf<Pair<Double, Double>, Pair<Double, Double>>()
-                val pairX = Pair(xMin, xMax)
-                val pairY = Pair(yMin, yMax)
+                val pairX = Pair(_xMin, _xMax)
+                val pairY = Pair(_yMin, _yMax)
                 mapOfCoord.put(pairX, pairY)
                 cancelAction.push(mapOfCoord)
                 fp.previous_img = null
@@ -287,6 +292,25 @@ class Window(f: AlgebraicFractal) : JFrame() {
         edit.add(theme)
         theme.setMnemonic('Т')
 
+        val DynamicIteration = JMenu("Динамические итерации")
+        menuBar.add(DynamicIteration)
+
+        val turnOn = JMenuItem("Включить")
+        DynamicIteration.add(turnOn)
+        turnOn.addActionListener{_: ActionEvent ->
+            DYTurnOn()
+            fp.previous_img = null
+            mainPanel.repaint()
+        }
+
+        val turnOff = JMenuItem("Выключить")
+        DynamicIteration.add(turnOff)
+        turnOn.addActionListener{_: ActionEvent ->
+            DYTurnOff()
+            fp.previous_img = null
+            mainPanel.repaint()
+        }
+
         val greenTheme = JMenuItem("Зелёная тема")
         theme.add(greenTheme)
         greenTheme.setMnemonic('З')
@@ -329,7 +353,7 @@ class Window(f: AlgebraicFractal) : JFrame() {
         observe.addActionListener { _: ActionEvent -> joulbertFunc() }
 
         if(af !is Julia) {
-            val joulbert = JMenuItem("Отрисовать множество Жюльберта")
+            val joulbert = JMenuItem("Отрисовать множество Жюлиа")
             joulbert.setMnemonic('Ж')
             joulbert.addActionListener { _: ActionEvent -> joulbertFunc() }
             observe.add(joulbert)
@@ -497,6 +521,13 @@ class Window(f: AlgebraicFractal) : JFrame() {
         }
         fp.previous_img = null
         mainPanel.repaint()
+    }
+
+    private fun DYTurnOn(){
+
+    }
+    private fun DYTurnOff(){
+
     }
 
 }
