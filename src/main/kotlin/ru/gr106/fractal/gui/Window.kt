@@ -3,6 +3,7 @@ package ru.gr106.fractal.gui
 import drawing.Converter
 import drawing.Plane
 import math.AlgebraicFractal
+import math.Complex
 import math.Julia
 import math.Mandelbrot
 import ru.gr106.fractal.main
@@ -27,6 +28,7 @@ class Window(f: AlgebraicFractal) : JFrame() {
     private val mainPanel: DrawingPanel
     private val fp: FractalPainter
     var themes: Map<String, (Float) -> Color> = mapOf()
+    var funcs: Map<String, (Complex) -> Complex> = mapOf()
     private var cancelAction: Stack<Map<Pair<Double, Double>, Pair<Double, Double>>>
     private var newWidth: Int = 0
     private var newHeight: Int = 0
@@ -48,6 +50,12 @@ class Window(f: AlgebraicFractal) : JFrame() {
         minimumSize = Dimension(600, 550)
         mainPanel = DrawingPanel(fp)
         cancelAction = Stack<Map<Pair<Double, Double>, Pair<Double, Double>>>()
+
+        funcs = mapOf(
+            "square" to {value:Complex -> value*value},
+            "qubic" to {value:Complex -> value*value*value},
+            "plus" to {value:Complex -> value+value}
+        )
 
         themes = mapOf(
             "green" to {
@@ -106,16 +114,18 @@ class Window(f: AlgebraicFractal) : JFrame() {
 
                 if (Math.abs(relationOXY - relationWidthHeight) > 1E-5){
                     if (relationOXY < relationWidthHeight){
-                        val equFactor = newHeight * 1.0 / OYlength
-                        val proportion = OXlength * newWidth / (equFactor * OXlength)
-                        dx = proportion - OXlength
+//                        val equFactor = newHeight * 1.0 / OYlength
+//                        val proportion = OXlength * newWidth / (equFactor * OXlength)
+//                        dx = proportion - OXlength
+                        dx = relationWidthHeight - relationOXY
                         newXMin -= dx
                         newXMax += dx
                     }
                     if (relationOXY > relationWidthHeight){
-                        val equFactor = newWidth * 1.0 / OXlength
-                        val proportion = OYlength * newHeight / (equFactor * OYlength)
-                        dy = proportion - OYlength
+//                        val equFactor = newWidth * 1.0 / OXlength
+//                        val proportion = OYlength * newHeight / (equFactor * OYlength)
+//                        dy = proportion - OYlength
+                        dy = relationOXY - relationWidthHeight
                         newYMin -= dy
                         newYMax += dy
                     }
@@ -253,6 +263,7 @@ class Window(f: AlgebraicFractal) : JFrame() {
         pack()
         fp.plane = Plane(-2.0, 1.0, -1.0, 1.0, mainPanel.width, mainPanel.height)
         fp.pointColor = themes["green"]!!
+        //math.Mandelbrot.function = funcs["square"]!!
         MovieMaker.fpp = fp
     }
     private fun createMenuBar(): JMenuBar {
@@ -307,6 +318,33 @@ class Window(f: AlgebraicFractal) : JFrame() {
             fp.previous_img = null
             mainPanel.repaint()
         }
+        val FractFunc = JMenu("Функция построения")
+        menuBar.add(FractFunc)
+
+        val squareFunc = JMenuItem("Квадратичная")
+        FractFunc.add(squareFunc)
+        squareFunc.addActionListener{_: ActionEvent ->
+            Mandelbrot.function = funcs["square"]!!
+            fp.previous_img = null
+            mainPanel.repaint()
+        }
+
+        val qubicFunc = JMenuItem("Кубическая")
+        FractFunc.add(qubicFunc)
+        qubicFunc.addActionListener{_: ActionEvent ->
+            Mandelbrot.function = funcs["qubic"]!!
+            fp.previous_img = null
+            mainPanel.repaint()
+        }
+
+        val expFunc = JMenuItem("Линейная")
+        FractFunc.add(expFunc)
+        expFunc.addActionListener{_: ActionEvent ->
+            Mandelbrot.function = funcs["plus"]!!
+            fp.previous_img = null
+            mainPanel.repaint()
+        }
+
 
         val greenTheme = JMenuItem("Зелёная тема")
         theme.add(greenTheme)
